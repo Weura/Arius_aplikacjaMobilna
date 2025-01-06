@@ -4,16 +4,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.pizzeria.data.model.Pizza;
+
+import java.util.List;
+
 public class MenuViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<List<Pizza>> pizzaList;
 
     public MenuViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is menu fragment");
+        pizzaList = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Pizza>> getPizzaList() {
+        return pizzaList;
+    }
+
+    // Metoda do ustawiania pobranych danych o pizzach (jeśli chcesz to kontrolować w ViewModel)
+    public void setPizzaList(List<Pizza> pizzas) {
+        pizzaList.setValue(pizzas);
     }
 }

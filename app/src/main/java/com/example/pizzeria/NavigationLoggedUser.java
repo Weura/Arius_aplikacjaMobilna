@@ -83,6 +83,8 @@ public class NavigationLoggedUser extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.bottom_nav_menu, menu);
         return true;
+
+
     }
 
     // Dynamically update the menu based on the login status

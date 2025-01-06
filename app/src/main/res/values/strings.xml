@@ -15,13 +15,14 @@
     <string name="action_register">Register</string>
     <string name="action_login">Login</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">"Welcome!"</string>
 
     <string name="invalid_email">Not a valid email</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
 
     <string name="login_failed">"Login failed"</string>
+    <string name="login_successful">"Login successful"</string>
 
     <string name="login_button">"Login"</string>
     <string name="logout_button">"Logout"</string>
