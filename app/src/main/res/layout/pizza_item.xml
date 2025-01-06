@@ -30,22 +30,26 @@
 
         <TextView
             android:id="@+id/pizza_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pizza name"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/pizza_details"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pizza details"/>
+            android:text="Pizza details"
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/pizza_price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Price"/>
+            android:text="Price"
+            android:textStyle="italic"
+            android:textSize="15sp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
