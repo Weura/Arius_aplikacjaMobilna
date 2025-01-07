@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pizzeria.databinding.FragmentHistoryBinding;
 
+// TODO: zrobić całość
 public class HistoryFragment extends Fragment {
 
     private FragmentHistoryBinding binding;

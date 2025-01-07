@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.menu.MenuFragment">
+
+<!--    TODO: przewijanie wszystkich elementów-->
 
 
     <LinearLayout
@@ -28,6 +31,8 @@
             android:text="Pizzas"
             android:textSize="40dp"
             android:padding="1dp"
+            android:textColor="@color/white"
+            android:background="@color/main_black"
             android:textStyle="bold|italic"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -44,6 +49,8 @@
             android:layout_height="wrap_content"
             android:text="Toppings"
             android:textSize="30dp"
+            android:textColor="@color/white"
+            android:background="@color/main_black"
             android:padding="1dp"
             android:paddingBottom="3dp"
             android:textStyle="bold|italic"/>

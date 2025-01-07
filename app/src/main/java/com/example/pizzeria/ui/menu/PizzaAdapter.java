@@ -33,6 +33,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
         return new PizzaViewHolder(view);
     }
 
+//    TODO: obrazki nadal nie działają w menu
     @Override
     public void onBindViewHolder(@NonNull PizzaViewHolder holder, int position) {
         // Pobieranie obiektu Pizza na podstawie pozycji

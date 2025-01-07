@@ -2,6 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <!-- Wstaw swoją domenę zamiast _my_domain_ -->
-        <domain includeSubdomains="true">192.168.100.104</domain>
+<!--        TODO: ZMIANA IP         -->
+        <domain includeSubdomains="true">192.168.45.167</domain>
     </domain-config>
 </network-security-config>

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pizzeria.databinding.FragmentOrderBinding;
 
+// TODO: zrobić całość
 public class OrderFragment extends Fragment {
 
     private FragmentOrderBinding binding;
