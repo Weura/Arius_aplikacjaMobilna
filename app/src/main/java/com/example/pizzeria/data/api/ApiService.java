@@ -16,14 +16,16 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
+// -------------LOGIN------------------
+    // Logowanie
     @POST("/login")
     Call<LoginResponse> loginUser(@Body LoginRequest loginRequest);
 
+    // Rejestracja użytkownika
     @POST("/register")
-    static Call<UserResponse> registerUser(@Body UserRequest userRequest) {
-        return null;
-    }
+    Call<UserResponse> registerUser(@Body UserRequest userRequest);
 
+// -------------MENU------------------
     // Pobieranie listy pizz
     @GET("/pizzas")
     Call<List<Pizza>> getPizzas();

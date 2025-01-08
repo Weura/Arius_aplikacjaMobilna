@@ -22,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextEmail, editTextPassword, editTextUsername;
     private Button registerButton;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         // Wysyłanie żądania do backendu
-        ApiService.registerUser(userRequest).enqueue(new Callback<UserResponse>() {
+        apiService.registerUser(userRequest).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()) {

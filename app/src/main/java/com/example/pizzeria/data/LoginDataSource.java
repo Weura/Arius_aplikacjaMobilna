@@ -14,12 +14,12 @@ import retrofit2.Response;
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
+
 public class LoginDataSource {
 
     private ApiService apiService;
 
     public Result<LoggedInUser> login(String username, String password) {
-
         try {
             // Przygotowanie danych do wysłania w body requestu
             LoginRequest loginRequest = new LoginRequest(username, password);
@@ -31,10 +31,25 @@ public class LoginDataSource {
             if (response.isSuccessful() && response.body() != null) {
                 // Zwrócenie poprawnie zalogowanego użytkownika
                 LoginResponse loginResponse = response.body();
+
+                // Jeśli userName jest null lub pusty, nie przekazujemy go w obiekcie LoggedInUser
+                String userName = loginRequest.getUsername();
+                if (userName == null || userName.isEmpty()) {
+                    userName = "Guest";
+                }
+
                 LoggedInUser user = new LoggedInUser(
                         loginResponse.getUserId(),
-                        loginResponse.getUserName()
+                        userName // Przekazujemy userName tylko jeśli jest dostępne
                 );
+
+//                String userName = username != null && !username.isEmpty() ? username : null;
+//
+//                LoggedInUser user = new LoggedInUser(
+//                        loginResponse.getUserId(),
+//                        userName // Przekazujemy userName tylko jeśli jest dostępne
+//                );
+
                 return new Result.Success<>(user);
             } else {
                 // Obsługa błędnej odpowiedzi z serwera
@@ -49,3 +64,4 @@ public class LoginDataSource {
         // TODO: revoke authentication
     }
 }
+
