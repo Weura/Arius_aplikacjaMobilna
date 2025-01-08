@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 //    TODO: zmiana IP
-    private static final String BASE_URL = "http://192.168.45.167:5000";
+    private static final String BASE_URL = "http://192.168.100.104:5000";
 
     private static Retrofit retrofit = null;
 

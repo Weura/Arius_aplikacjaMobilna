@@ -4,64 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".ui.menu.MenuFragment">
+    android:background="@color/background_black"
+    tools:context=".ui.menuLogged.MenuFragment">
 
-<!--    TODO: przewijanie wszystkich elementów-->
-
-
-    <LinearLayout
-
+    <!-- Dodanie ScrollView -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-<!--        PIZZAS          -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pizzas"
-            android:textSize="40dp"
-            android:padding="1dp"
-            android:textColor="@color/white"
-            android:background="@color/main_black"
-            android:textStyle="bold|italic"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pizzaRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="1dp"
+            android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
-            android:orientation="vertical" />
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:orientation="vertical">
 
-<!--        TOPPINGS            -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Toppings"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:background="@color/main_black"
-            android:padding="1dp"
-            android:paddingBottom="3dp"
-            android:textStyle="bold|italic"/>
+            <!-- PIZZAS -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pizzas"
+                android:textSize="40dp"
+                android:padding="4dp"
+                android:textColor="@color/white"
+                android:background="@color/main_black"
+                android:textStyle="bold|italic" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/toppingRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="1dp"
-            android:layout_marginTop="1dp"
-            android:orientation="vertical" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pizzaRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="1dp"
+                android:layout_marginTop="1dp"
+                android:orientation="vertical" />
 
-    </LinearLayout>
+            <!-- TOPPINGS -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toppings"
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                android:background="@color/main_black"
+                android:padding="4dp"
+                android:paddingBottom="3dp"
+                android:textStyle="bold|italic" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/toppingRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="1dp"
+                android:layout_marginTop="1dp"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
