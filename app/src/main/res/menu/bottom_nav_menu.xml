@@ -17,7 +17,7 @@
         android:title="@string/title_history" />
 
     <item
-        android:id="@+id/action_logout"
+        android:id="@+id/navigation_login"
         android:icon="@drawable/icon_logout"
         android:title="Logout" />
 

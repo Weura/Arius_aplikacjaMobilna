@@ -22,10 +22,4 @@
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_logout"-->
-<!--        android:name="com.example.pizzeria.ui.login.LogoutActivity"-->
-<!--        android:label="@string/logout_button"-->
-<!--        tools:layout="@layout/activity_logout" />-->
-
 </navigation>

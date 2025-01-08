@@ -3,6 +3,8 @@ package com.example.pizzeria;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.widget.Toast;
 
 import com.example.pizzeria.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -13,10 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.example.pizzeria.databinding.ActivityNavigationLoggedUserBinding;
 
@@ -24,7 +23,6 @@ public class NavigationLoggedUser extends AppCompatActivity {
 
     private ActivityNavigationLoggedUserBinding binding;
     private NavController navController;
-    private BottomNavigationView navView;
 
     // Method to check if the user is logged in
     private boolean isLoggedIn() {
@@ -43,12 +41,15 @@ public class NavigationLoggedUser extends AppCompatActivity {
 
         // Set up ActionBar with NavController
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_order, R.id.navigation_menu, R.id.navigation_history)
+                R.id.navigation_order, R.id.navigation_menu, R.id.navigation_history, R.id.navigation_login)
                 .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         // Set up BottomNavigationView
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        // Update BottomNavigationMenu based on login status
+        updateBottomNavigationMenu();
 
         // Set up BottomNavigationView item click listener for login/logout
         binding.navView.setOnItemSelectedListener(item -> {
@@ -63,13 +64,7 @@ public class NavigationLoggedUser extends AppCompatActivity {
                     navController.navigate(R.id.navigation_order);
                     return true;
                 case R.id.navigation_login:
-                    // If the user is logged in, show the logout option
-                    if (isLoggedIn()) {
-                        logOut();
-                    } else {
-                        // Otherwise, navigate to the login screen
-                        startActivity(new Intent(this, LoginActivity.class));
-                    }
+                    logOut();
                     return true;
                 default:
                     return false;
@@ -77,49 +72,29 @@ public class NavigationLoggedUser extends AppCompatActivity {
         });
     }
 
-    // Method to create the menu (first time)
+    // Update BottomNavigationMenu dynamically
+    private void updateBottomNavigationMenu() {
+        BottomNavigationView navView = binding.navView;
+        navView.getMenu().clear(); // Clear existing menu items
+
+        // Inflate menu based on login status
+        if (isLoggedIn()) {
+            navView.inflateMenu(R.menu.bottom_nav_menu); // Menu for logged-in users
+        } else {
+            navView.inflateMenu(R.menu.bottom_nav_menu_logged_out); // Menu for not-logged-in users
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBottomNavigationMenu(); // Refresh menu when activity is resumed
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bottom_nav_menu, menu);
+        getMenuInflater().inflate(R.menu.bottom_nav_menu, menu);
         return true;
-
-
-    }
-
-    // Dynamically update the menu based on the login status
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.action_logout);
-
-        // Check if the user is logged in
-        if (isLoggedIn()) {
-            // If logged in, show the logout option
-            logoutItem.setTitle("Wyloguj");
-            logoutItem.setIcon(R.drawable.icon_logout);
-        } else {
-            // If not logged in, show the login option
-            logoutItem.setTitle("Zaloguj");
-            logoutItem.setIcon(R.drawable.icon_login); // Icon for "Login"
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                if (isLoggedIn()) {
-                    // Log out the user
-                    logOut();
-                } else {
-                    // If not logged in, go to the login screen
-                    startActivity(new Intent(this, LoginActivity.class));
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     // Method to log out the user
@@ -133,7 +108,8 @@ public class NavigationLoggedUser extends AppCompatActivity {
         Toast.makeText(this, "Wylogowano", Toast.LENGTH_SHORT).show();
 
         // Redirect to the login screen
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
         finish(); // Close the current activity
     }
 }
