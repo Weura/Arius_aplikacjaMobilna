@@ -1,4 +1,4 @@
-package com.example.pizzeria.ui.menu;
+package com.example.pizzeria.ui.menuLogged;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingViewHolder> {
 
-    private List<Topping> toppingList;
+    private final List<Topping> toppingList;
 
     // Konstruktor
     public ToppingAdapter(List<Topping> toppingList) {

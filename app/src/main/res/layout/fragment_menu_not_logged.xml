@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_black"
-    tools:context=".ui.menuLogged.MenuFragment">
+    tools:context=".ui.menuNotLogged.MenuFragmentNot">
 
     <!-- Dodanie ScrollView -->
     <ScrollView
@@ -37,7 +37,7 @@
                 android:textStyle="bold|italic" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pizzaRecyclerView"
+                android:id="@+id/pizzaRecyclerViewNot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="1dp"
@@ -57,7 +57,7 @@
                 android:textStyle="bold|italic" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/toppingRecyclerView"
+                android:id="@+id/toppingRecyclerViewNot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="1dp"

@@ -12,8 +12,8 @@
         android:label="@string/title_order"
         tools:layout="@layout/fragment_order" />
     <fragment
-        android:id="@+id/navigation_menu"
-        android:name="com.example.pizzeria.ui.menu.MenuFragment"
+        android:id="@+id/navigation_menu_logged"
+        android:name="com.example.pizzeria.ui.menuLogged.MenuFragment"
         android:label="@string/title_menu"
         tools:layout="@layout/fragment_menu" />
     <fragment
@@ -22,6 +22,7 @@
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 
+<!--    TODO: logout-->
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_logout"-->
 <!--        android:name="com.example.pizzeria.ui.login.LogoutActivity"-->

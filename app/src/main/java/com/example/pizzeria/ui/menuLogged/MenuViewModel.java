@@ -1,4 +1,4 @@
-package com.example.pizzeria.ui.menu;
+package com.example.pizzeria.ui.menuLogged;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

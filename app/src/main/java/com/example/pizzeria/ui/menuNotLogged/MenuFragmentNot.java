@@ -1,4 +1,4 @@
-package com.example.pizzeria.ui.menu;
+package com.example.pizzeria.ui.menuNotLogged;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,14 +23,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MenuFragment extends Fragment {
+public class MenuFragmentNot extends Fragment {
 
     private FragmentMenuBinding binding;
     private RecyclerView pizzaRecyclerView;
-    private PizzaAdapter pizzaAdapter;
+    private PizzaAdapterNot pizzaAdapterNot;
     private List<Pizza> pizzaList;
     private RecyclerView toppingRecyclerView;
-    private ToppingAdapter toppingAdapter;
+    private ToppingAdapterNot toppingAdapterNot;
     private List<Topping> toppingList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -66,8 +66,8 @@ public class MenuFragment extends Fragment {
             public void onResponse(Call<List<Topping>> call, Response<List<Topping>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     toppingList = response.body();
-                    toppingAdapter = new ToppingAdapter(toppingList);
-                    toppingRecyclerView.setAdapter(toppingAdapter);
+                    toppingAdapterNot = new ToppingAdapterNot(toppingList);
+                    toppingRecyclerView.setAdapter(toppingAdapterNot);
                 } else {
                     // Jeśli odpowiedź z backendu jest błędna
                     Toast.makeText(getContext(), "Failed to load toppings", Toast.LENGTH_SHORT).show();
@@ -93,8 +93,8 @@ public class MenuFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     pizzaList = response.body();
 
-                    pizzaAdapter = new PizzaAdapter(pizzaList);
-                    pizzaRecyclerView.setAdapter(pizzaAdapter);
+                    pizzaAdapterNot = new PizzaAdapterNot(pizzaList);
+                    pizzaRecyclerView.setAdapter(pizzaAdapterNot);
                 } else {
                     // Jeśli odpowiedź z backendu jest błędna
                     Toast.makeText(getContext(), "Failed to load pizzas", Toast.LENGTH_SHORT).show();

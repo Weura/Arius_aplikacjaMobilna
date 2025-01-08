@@ -1,4 +1,4 @@
-package com.example.pizzeria.ui.menu;
+package com.example.pizzeria.ui.menuLogged;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
 
-    private List<Pizza> pizzaList;
+    private final List<Pizza> pizzaList;
 
     // Konstruktor
     public PizzaAdapter(List<Pizza> pizzaList) {

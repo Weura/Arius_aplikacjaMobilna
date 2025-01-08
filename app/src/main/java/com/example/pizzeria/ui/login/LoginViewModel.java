@@ -18,10 +18,10 @@ import retrofit2.Response;
 
 public class LoginViewModel extends ViewModel {
 
-    private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private final MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private final MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
-    private ApiService apiService;
+    private final ApiService apiService;
 
     public LoginViewModel(LoginRepository instance) {
         apiService = ApiClient.getClient().create(ApiService.class);
