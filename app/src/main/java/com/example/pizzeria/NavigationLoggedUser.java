@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.pizzeria.databinding.ActivityNavigationLoggedUserBinding;
-
+import android.util.Log;
 public class NavigationLoggedUser extends AppCompatActivity {
 
     private ActivityNavigationLoggedUserBinding binding;
@@ -94,10 +94,12 @@ public class NavigationLoggedUser extends AppCompatActivity {
 
         // Check if the user is logged in
         if (isLoggedIn()) {
+
             // If logged in, show the logout option
             logoutItem.setTitle("Wyloguj");
             logoutItem.setIcon(R.drawable.icon_logout);
         } else {
+            Log.d("UWU","OWO");
             // If not logged in, show the login option
             logoutItem.setTitle("Zaloguj");
             logoutItem.setIcon(R.drawable.icon_login); // Icon for "Login"
