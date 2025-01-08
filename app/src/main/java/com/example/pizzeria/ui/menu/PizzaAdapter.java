@@ -1,5 +1,5 @@
 package com.example.pizzeria.ui.menu;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,17 +36,22 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
 //    TODO: obrazki nadal nie działają w menu
     @Override
     public void onBindViewHolder(@NonNull PizzaViewHolder holder, int position) {
-        // Pobieranie obiektu Pizza na podstawie pozycji
+        // Get the Pizza object at the current position
         Pizza pizza = pizzaList.get(position);
+
+        // Set the pizza details
         holder.pizzaName.setText(pizza.getName());
         holder.pizzaDetails.setText(pizza.getDetails());
-        holder.pizzaPrice.setText(String.valueOf(pizza.getPrice()));
-
-        // Załadowanie obrazka przy użyciu Picasso
+        holder.pizzaPrice.setText(String.format("$%.2f", pizza.getPrice()));
+        Log.d("PizzaAdapter", "Image URL: " + pizza.getImageUrl());
+        // Load the image using Picasso without placeholders or error handling
         Picasso.get()
-                .load(pizza.getImageUrl())  // URL obrazu
-                .into(holder.pizzaImage);
+                .load(pizza.getImageUrl())  // URL of the image
+                .placeholder(R.drawable.loading2)  // Animated GIF or other drawable as placeholder
+                .into(holder.pizzaImage);  // Target ImageView
+
     }
+
 
     @Override
     public int getItemCount() {

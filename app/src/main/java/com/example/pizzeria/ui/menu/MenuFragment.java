@@ -23,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.util.Log;
+
 public class MenuFragment extends Fragment {
 
     private FragmentMenuBinding binding;
@@ -86,6 +88,10 @@ public class MenuFragment extends Fragment {
         // Inicjalizacja API Service
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
+        // Log the base URL and the endpoint to check the full URL
+        String baseUrl = ApiClient.getClient().baseUrl().toString();
+        Log.d("API Request", "Request URL: " + baseUrl + "pizzas"); // Log the full URL
+
         // Wykonanie zapytania o pizze
         apiService.getPizzas().enqueue(new Callback<List<Pizza>>() {
             @Override
@@ -93,17 +99,26 @@ public class MenuFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     pizzaList = response.body();
 
+                    // Log the number of pizzas and each pizza's image URL
+                    Log.d("API Response", "Pizzas loaded successfully: " + pizzaList.size() + " pizzas");
+
+                    for (Pizza pizza : pizzaList) {
+                        Log.d("Pizza Image URL", "Pizza name: " + pizza.getName() + ", Image URL: " + pizza.getImageUrl());
+                    }
+
                     pizzaAdapter = new PizzaAdapter(pizzaList);
                     pizzaRecyclerView.setAdapter(pizzaAdapter);
                 } else {
-                    // Jeśli odpowiedź z backendu jest błędna
+                    // Log the failure in the response
+                    Log.e("API Response", "Failed to load pizzas. Response code: " + response.code());
                     Toast.makeText(getContext(), "Failed to load pizzas", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Pizza>> call, Throwable t) {
-                // Obsługa błędu połączenia
+                // Log the failure reason
+                Log.e("API Request", "Error: " + t.getMessage());
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
