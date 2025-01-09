@@ -16,9 +16,15 @@
         android:icon="@drawable/icon_history"
         android:title="@string/title_history" />
 
+<!--    <item-->
+<!--        android:id="@+id/action_logout"-->
+<!--        android:icon="@drawable/icon_logout"-->
+<!--        android:title="Logout" />-->
+
     <item
-        android:id="@+id/action_logout"
-        android:icon="@drawable/icon_logout"
-        android:title="Logout" />
+        android:id="@+id/navigation_login"
+        android:icon="@drawable/icon_login"
+        android:title="Log in"
+        />
 
 </menu>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="2dp">
 
     <!-- Obrazek pizzy -->
     <ImageView
@@ -11,6 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="Pizza Image"
+
         android:layout_marginEnd="16dp"
         android:scaleType="centerCrop"
         android:src="@drawable/icon_pizzerialocal"
@@ -34,6 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pizza name"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -42,6 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pizza details"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
             android:textSize="13sp"/>
 
         <TextView
@@ -49,6 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Price"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
             android:textStyle="italic"
             android:textSize="15sp"/>
     </LinearLayout>

@@ -28,4 +28,10 @@
 <!--        android:label="@string/logout_button"-->
 <!--        tools:layout="@layout/activity_logout" />-->
 
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.pizzeria.ui.login.LoginActivity"
+        android:label="@string/login_button"
+        tools:layout="@layout/activity_login" />
+
 </navigation>
