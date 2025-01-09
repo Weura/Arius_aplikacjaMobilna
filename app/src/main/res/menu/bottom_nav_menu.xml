@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_order"
-        android:icon="@drawable/icon_delivery"
+        android:icon="@drawable/icon_delivery_unusable"
         android:title="@string/title_order" />
 
     <item
@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_history"
-        android:icon="@drawable/icon_history"
+        android:icon="@drawable/icon_history_unusable"
         android:title="@string/title_history" />
 
 <!--    <item-->
