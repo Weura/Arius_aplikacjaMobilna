@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -138,6 +139,13 @@ public class LoginActivity extends AppCompatActivity {
         String welcomeMessage = getString(R.string.welcome) + model.getDisplayName();
         Toast.makeText(getApplicationContext(), welcomeMessage, Toast.LENGTH_LONG).show();
 
+        // Save the login state to SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("is_logged_in", true); // Save login state
+        editor.putString("user_display_name", model.getDisplayName()); // Optionally save the user's display name
+        editor.apply();
+
         // Navigate to NavigationLoggedUser after successful login
         Intent intent = new Intent(LoginActivity.this, NavigationLoggedUser.class);
         startActivity(intent);
@@ -145,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         // Finish the current login activity
         finish();
     }
+
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();

@@ -19,7 +19,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.pizzeria.databinding.ActivityNavigationLoggedUserBinding;
+
 import android.util.Log;
+
 public class NavigationLoggedUser extends AppCompatActivity {
 
     private ActivityNavigationLoggedUserBinding binding;
@@ -39,12 +41,6 @@ public class NavigationLoggedUser extends AppCompatActivity {
 
         // Initialize NavController
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-
-        // Set up ActionBar with NavController
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_menu, R.id.navigation_order, R.id.navigation_history, R.id.navigation_login)
-//                .build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         // Set up BottomNavigationView
         NavigationUI.setupWithNavController(binding.navView, navController);
