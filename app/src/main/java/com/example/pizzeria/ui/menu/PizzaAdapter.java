@@ -49,7 +49,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
                 .load(pizza.getImageUrl())  // URL of the image
                 .placeholder(R.drawable.loading2)  // Animated GIF or other drawable as placeholder
                 .into(holder.pizzaImage);  // Target ImageView
-
     }
 
 

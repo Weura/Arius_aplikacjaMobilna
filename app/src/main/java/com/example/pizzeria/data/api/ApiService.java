@@ -2,6 +2,7 @@ package com.example.pizzeria.data.api;
 
 import com.example.pizzeria.data.model.LoginRequest;
 import com.example.pizzeria.data.model.LoginResponse;
+import com.example.pizzeria.data.model.Order;
 import com.example.pizzeria.data.model.Pizza;
 import com.example.pizzeria.data.model.Topping;
 import com.example.pizzeria.data.model.UserRequest;
@@ -13,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -33,4 +35,8 @@ public interface ApiService {
     // Pobieranie listy dodatków (toppings)
     @GET("/toppings")
     Call<List<Topping>> getToppings();
+
+// -------------HISTORY------------------
+    @GET("orders/{user_id}")
+    Call<List<Order>> getOrders(@Path("user_id") int userId);
 }

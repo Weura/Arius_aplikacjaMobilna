@@ -10,17 +10,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.pizzeria.databinding.ActivityNavigationLoggedUserBinding;
-
-import android.util.Log;
 
 public class NavigationLoggedUser extends AppCompatActivity {
 
@@ -78,15 +73,21 @@ public class NavigationLoggedUser extends AppCompatActivity {
         });
     }
 
-    private void updateLoginLogoutMenuItem() {
+    private void updateMenuItems() {
         BottomNavigationView navView = binding.navView;
         MenuItem loginItem = navView.getMenu().findItem(R.id.navigation_login);
+        MenuItem orderItem = navView.getMenu().findItem(R.id.navigation_order);
+        MenuItem historyItem = navView.getMenu().findItem(R.id.navigation_history);
 
         if (isLoggedIn()) {
             loginItem.setTitle("Logout");
+            historyItem.setIcon(R.drawable.icon_history);
+            orderItem.setIcon(R.drawable.icon_delivery);
             loginItem.setIcon(R.drawable.icon_logout); // Replace with Logout icon
         } else {
             loginItem.setTitle("Login");
+            historyItem.setIcon(R.drawable.icon_history_unusable);
+            orderItem.setIcon(R.drawable.icon_delivery_unusable);
             loginItem.setIcon(R.drawable.icon_login); // Replace with Login icon
         }
     }
@@ -94,7 +95,7 @@ public class NavigationLoggedUser extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateLoginLogoutMenuItem(); // Update the menu when activity resumes
+        updateMenuItems(); // Update the menu when activity resumes
     }
 
     // Show a toast to prompt the user to log in
@@ -104,14 +105,20 @@ public class NavigationLoggedUser extends AppCompatActivity {
 
     // Method to log out the user
     private void logOut() {
+        // Clear the user's login status
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("is_logged_in", false);
         editor.apply();
 
+        // Show a logout confirmation
         Toast.makeText(this, "Wylogowano", Toast.LENGTH_SHORT).show();
+
+        // Update the menu items to reflect the logout state
+        updateMenuItems();
 
         // Redirect to the main menu
         navController.navigate(R.id.navigation_menu);
     }
+
 }

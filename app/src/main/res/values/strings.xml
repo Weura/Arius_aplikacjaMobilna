@@ -33,4 +33,6 @@
     <string name="prompt_surname">Surname</string>
     <string name="prompt_telephone_number">Telephone Number</string>
 
+    <string name="no_user_history">"Nothing to show here, make your first order"</string>
+
 </resources>
