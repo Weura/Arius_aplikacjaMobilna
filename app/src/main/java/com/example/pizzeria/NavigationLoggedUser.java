@@ -18,7 +18,8 @@ import android.widget.Toast;
 import com.example.pizzeria.databinding.ActivityNavigationLoggedUserBinding;
 
 public class NavigationLoggedUser extends AppCompatActivity {
-
+    // TODO: rating po zamowieniu (jest obowiazkowy)
+    // TODO: opłaty...
     private ActivityNavigationLoggedUserBinding binding;
     private NavController navController;
 
@@ -82,12 +83,12 @@ public class NavigationLoggedUser extends AppCompatActivity {
         if (isLoggedIn()) {
             loginItem.setTitle("Logout");
             historyItem.setIcon(R.drawable.icon_history);
-            orderItem.setIcon(R.drawable.icon_delivery);
+            orderItem.setIcon(R.drawable.icon_cart);
             loginItem.setIcon(R.drawable.icon_logout); // Replace with Logout icon
         } else {
             loginItem.setTitle("Login");
             historyItem.setIcon(R.drawable.icon_history_unusable);
-            orderItem.setIcon(R.drawable.icon_delivery_unusable);
+            orderItem.setIcon(R.drawable.icon_cart_unusable);
             loginItem.setIcon(R.drawable.icon_login); // Replace with Login icon
         }
     }
@@ -109,6 +110,7 @@ public class NavigationLoggedUser extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("is_logged_in", false);
+        editor.remove("user_id");
         editor.apply();
 
         // Show a logout confirmation

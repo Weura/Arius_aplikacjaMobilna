@@ -1,5 +1,7 @@
 package com.example.pizzeria.data.api;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -11,9 +13,20 @@ public class ApiClient {
 
     public static Retrofit getClient() {
         if (retrofit == null) {
+            // Dodaj logger
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            // Dodaj logger do klienta HTTP
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(loggingInterceptor) // Interceptor dla logowania
+                    .build();
+
+            // Twórz instancję Retrofit
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client) // Dodaj klienta z loggerem
+                    .addConverterFactory(GsonConverterFactory.create()) // Parsowanie JSON
                     .build();
         }
         return retrofit;

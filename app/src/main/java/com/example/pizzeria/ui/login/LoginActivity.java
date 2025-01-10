@@ -12,6 +12,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -166,6 +167,9 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("is_logged_in", true); // Save login state
         editor.putString("user_display_name", model.getDisplayName()); // Optionally save the user's display name
+        editor.putInt("user_id", model.getUserId());
+        Log.d("LOGINlogiks", "userId: " + model.getUserId());
+        Log.d("LOGINlogiks", "displayName: " + model.getDisplayName());
         editor.apply();
 
         // Navigate to NavigationLoggedUser after successful login
