@@ -27,6 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextEmail, editTextPassword, editTextUsername, editTextName, editTextSurname, editTextTelephoneNumber;
     private Button registerButton;
+
+    private Button returnButton;
     private ApiService apiService;
 
     @Override
@@ -42,11 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
         editTextSurname = findViewById(R.id.editTextSurname);
         editTextTelephoneNumber = findViewById(R.id.editTextTelephone);
         registerButton = findViewById(R.id.registerButton);
+        returnButton = findViewById(R.id.returnButton);
 
         // Initially disable the register button
         registerButton.setEnabled(false);
-
-        // Initialize Retrofit
 
 
         // Create an instance of ApiService
@@ -79,6 +80,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Handle user registration
         registerButton.setOnClickListener(view -> registerUser());
+        returnButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void checkFields() {

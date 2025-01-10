@@ -23,12 +23,15 @@ import android.widget.Toast;
 
 import com.example.pizzeria.NavigationLoggedUser;
 import com.example.pizzeria.R;
+import com.example.pizzeria.data.model.LoggedInUser;
 import com.example.pizzeria.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+
+    private Button returnButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.loginButton;
         final Button registerPageButton = binding.registerPageButton;
         final ProgressBar loadingProgressBar = binding.loading;
+        returnButton = findViewById(R.id.returnButton);
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -112,6 +117,13 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
+        returnButton.setOnClickListener(view -> {
+
+            Intent intent = new Intent(LoginActivity.this, NavigationLoggedUser.class);
+            startActivity(intent);
+            finish();
+        });
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void onLoginSuccess(LoggedInUserView model) {
         String welcomeMessage = getString(R.string.welcome) + model.getDisplayName();
