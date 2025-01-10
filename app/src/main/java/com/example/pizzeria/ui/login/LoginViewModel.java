@@ -49,7 +49,7 @@ public class LoginViewModel extends ViewModel {
                         userName = "Guest";
                     }
 
-                    LoggedInUserView userView = new LoggedInUserView("User " + loginResponse.getUserId());
+                    LoggedInUserView userView = new LoggedInUserView("User " + loginResponse.getUserId(), loginResponse.getUserId());
                     loginResult.postValue(new LoginResult(userView));
                 } else {
                     loginResult.postValue(new LoginResult(R.string.login_failed));

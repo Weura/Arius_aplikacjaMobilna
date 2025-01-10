@@ -4,21 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_black"
     tools:context=".ui.order.OrderFragment">
 
-    <TextView
-        android:id="@+id/text_order"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="ORDER"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/pizza_id_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pizza ID"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
+            android:inputType="number"
+            android:padding="5dp"/>
+
+        <EditText
+            android:id="@+id/topping_ids_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Topping IDs (comma-separated)"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
+            android:inputType="text"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/submit_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Order Now"
+            android:padding="5dp" />
+
+
+
+    </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

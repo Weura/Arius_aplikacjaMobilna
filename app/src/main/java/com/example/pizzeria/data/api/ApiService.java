@@ -3,6 +3,8 @@ package com.example.pizzeria.data.api;
 import com.example.pizzeria.data.model.LoginRequest;
 import com.example.pizzeria.data.model.LoginResponse;
 import com.example.pizzeria.data.model.Order;
+import com.example.pizzeria.data.model.OrderRequest;
+import com.example.pizzeria.data.model.OrderResponse;
 import com.example.pizzeria.data.model.Pizza;
 import com.example.pizzeria.data.model.Topping;
 import com.example.pizzeria.data.model.UserRequest;
@@ -39,4 +41,8 @@ public interface ApiService {
 // -------------HISTORY------------------
     @GET("orders/{user_id}")
     Call<List<Order>> getOrders(@Path("user_id") int userId);
+
+// -------------ORDERING------------------
+    @POST("order")
+    Call<OrderResponse> createOrder(@Body OrderRequest orderRequest);
 }
