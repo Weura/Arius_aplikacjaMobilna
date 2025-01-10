@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.pizzeria.NavigationLoggedUser;
 import com.example.pizzeria.R;
+import com.example.pizzeria.RateActivity;
 import com.example.pizzeria.data.model.LoggedInUser;
 import com.example.pizzeria.databinding.ActivityLoginBinding;
 
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
 
     private Button returnButton;
+    private Button ratePageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.passwordEditText;
         final Button loginButton = binding.loginButton;
         final Button registerPageButton = binding.registerPageButton;
+        final Button ratePageButton = binding.ratePageButton;
         final ProgressBar loadingProgressBar = binding.loading;
         returnButton = findViewById(R.id.returnButton);
 
@@ -140,6 +143,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Navigate to RegisterActivity
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        ratePageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(LoginActivity.this, RateActivity.class);
                 startActivity(intent);
             }
         });

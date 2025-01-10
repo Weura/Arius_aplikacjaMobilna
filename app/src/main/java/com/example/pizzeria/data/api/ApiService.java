@@ -1,5 +1,5 @@
 package com.example.pizzeria.data.api;
-
+import com.google.gson.JsonObject;
 import com.example.pizzeria.data.model.LoginRequest;
 import com.example.pizzeria.data.model.LoginResponse;
 import com.example.pizzeria.data.model.Order;
@@ -39,4 +39,7 @@ public interface ApiService {
 // -------------HISTORY------------------
     @GET("orders/{user_id}")
     Call<List<Order>> getOrders(@Path("user_id") int userId);
+    @POST("/rate")
+    Call<JsonObject> submitRating(@Body JsonObject ratingData);
+
 }
