@@ -28,4 +28,9 @@
 
     <string name="login_button">"Login"</string>
     <string name="logout_button">"Logout"</string>
+
+    <string name="prompt_name">Name</string>
+    <string name="prompt_surname">Surname</string>
+    <string name="prompt_telephone_number">Telephone Number</string>
+
 </resources>

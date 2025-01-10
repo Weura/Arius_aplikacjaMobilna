@@ -1,4 +1,4 @@
-package  com.example.pizzeria.ui.login;
+package com.example.pizzeria.ui.login;
 
 import android.app.Activity;
 import androidx.lifecycle.Observer;
@@ -23,8 +23,6 @@ import android.widget.Toast;
 
 import com.example.pizzeria.NavigationLoggedUser;
 import com.example.pizzeria.R;
-import com.example.pizzeria.ui.login.LoginViewModel;
-import com.example.pizzeria.ui.login.LoginViewModelFactory;
 import com.example.pizzeria.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -128,9 +126,9 @@ public class LoginActivity extends AppCompatActivity {
         registerPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Here you would navigate to the RegisterActivity
-                // Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                // startActivity(intent);
+                // Navigate to RegisterActivity
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
