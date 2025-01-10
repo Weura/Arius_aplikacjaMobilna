@@ -105,14 +105,20 @@ public class NavigationLoggedUser extends AppCompatActivity {
 
     // Method to log out the user
     private void logOut() {
+        // Clear the user's login status
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("is_logged_in", false);
         editor.apply();
 
+        // Show a logout confirmation
         Toast.makeText(this, "Wylogowano", Toast.LENGTH_SHORT).show();
+
+        // Update the menu items to reflect the logout state
+        updateMenuItems();
 
         // Redirect to the main menu
         navController.navigate(R.id.navigation_menu);
     }
+
 }
