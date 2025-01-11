@@ -26,6 +26,7 @@ import com.example.pizzeria.NavigationLoggedUser;
 import com.example.pizzeria.R;
 import com.example.pizzeria.RateActivity;
 import com.example.pizzeria.data.model.LoggedInUser;
+import com.example.pizzeria.data.model.UserSessionManager;
 import com.example.pizzeria.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -162,23 +163,19 @@ public class LoginActivity extends AppCompatActivity {
         String welcomeMessage = getString(R.string.welcome) + model.getDisplayName();
         Toast.makeText(getApplicationContext(), welcomeMessage, Toast.LENGTH_LONG).show();
 
-        // Save the login state to SharedPreferences
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("is_logged_in", true); // Save login state
-        editor.putString("user_display_name", model.getDisplayName()); // Optionally save the user's display name
-        editor.putInt("user_id", model.getUserId());
-        Log.d("LOGINlogiks", "userId: " + model.getUserId());
-        Log.d("LOGINlogiks", "displayName: " + model.getDisplayName());
-        editor.apply();
+        // Save the user session using UserSessionManager
+        UserSessionManager userSessionManager = UserSessionManager.getInstance(this);
+        LoggedInUser loggedInUser = new LoggedInUser(model.getUserId(), model.getDisplayName());
+        userSessionManager.saveUserSession(loggedInUser);  // Zapisz sesję użytkownika
 
-        // Navigate to NavigationLoggedUser after successful login
+        // Przekierowanie po zalogowaniu
         Intent intent = new Intent(LoginActivity.this, NavigationLoggedUser.class);
         startActivity(intent);
 
-        // Finish the current login activity
+        // Zakończ bieżącą aktywność logowania
         finish();
     }
+
 
 
     private void showLoginFailed(@StringRes Integer errorString) {

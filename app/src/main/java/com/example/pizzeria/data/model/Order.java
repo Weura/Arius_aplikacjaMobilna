@@ -5,6 +5,8 @@ import java.util.List;
 public class Order {
     private int order_id;
     private String created_at;
+    private String location;
+    private String delivery_time;
     private List<Item> items;
 
     // Getters
@@ -16,6 +18,8 @@ public class Order {
     public String getCreated_at() {
         return created_at;
     }
+    public String getLocation() {return location; }
+    public String getDelivery_time() {return delivery_time; }
 
     public List<Item> getItems() {
         return items;
@@ -29,6 +33,13 @@ public class Order {
 
     public void setCreated_at() {
         this.created_at = created_at;
+    }
+    public void setLocation() {
+        this.location = location;
+    }
+
+    public void setDelivery_time() {
+        this.delivery_time = delivery_time;
     }
 
     public void setItems() {

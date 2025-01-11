@@ -3,7 +3,7 @@ package  com.example.pizzeria.ui.login;
 /**
  * Class exposing authenticated user details to the UI.
  */
-class LoggedInUserView {
+public class LoggedInUserView {
     private String displayName;
     private int userId;
     //... other data fields that may be accessible to the UI

@@ -16,27 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/createdAtTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/orderIdTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white_mild"
-                android:paddingLeft="20dp"
-                android:textSize="20sp"
-                android:textStyle="bold"  />
-
-            <TextView
-                android:id="@+id/createdAtTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white_mild"
-                android:textSize="20sp" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textColor="@color/white_mild"
+            android:paddingLeft="20dp"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/itemsTextView"
@@ -45,11 +32,6 @@
             android:textColor="@color/white_mild"
             android:paddingLeft="25dp"
             android:textSize="16sp" />
-
-
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

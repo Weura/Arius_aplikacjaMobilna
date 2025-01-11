@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pizzeria.R;
 import com.example.pizzeria.data.api.ApiClient;
 import com.example.pizzeria.data.api.ApiService;
+import com.example.pizzeria.data.model.LoggedInUser;
 import com.example.pizzeria.data.model.Order;
+import com.example.pizzeria.data.model.UserSessionManager;
+import com.example.pizzeria.ui.login.LoggedInUserView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,15 @@ public class HistoryFragment extends Fragment {
         historyOrderAdapter = new HistoryOrderAdapter(orderList);
         recyclerView.setAdapter(historyOrderAdapter);
 
-        fetchOrders(1); // Replace '1' with the logged-in user's ID
+        UserSessionManager userSessionManager = UserSessionManager.getInstance(getContext());
+        LoggedInUser currentUser = userSessionManager.getLoggedInUser();
+
+        if (currentUser != null) {
+            fetchOrders(currentUser.getUserId()); // Wywołaj API tylko, jeśli userId jest poprawny
+        } else {
+            Toast.makeText(getContext(), "User is not logged in", Toast.LENGTH_SHORT).show();
+        }
+
         return view;
     }
 

@@ -4,6 +4,8 @@ import java.util.List;
 
 public class OrderRequest {
     private int user_id;
+    private String location;
+    private String delivery_time;
     private List<OrderItem> items;
 
     // Constructor

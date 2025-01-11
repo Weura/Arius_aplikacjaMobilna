@@ -1,12 +1,20 @@
 package com.example.pizzeria.ui.history;
 
 import androidx.annotation.NonNull;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
@@ -45,25 +53,51 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            orderIdTextView = itemView.findViewById(R.id.orderIdTextView);
-            createdAtTextView = itemView.findViewById(R.id.createdAtTextView);
-            itemsTextView = itemView.findViewById(R.id.itemsTextView);
+            createdAtTextView = itemView.findViewById(R.id.createdAtTextView); // Date of the order
+            itemsTextView = itemView.findViewById(R.id.itemsTextView); // Pizza and toppings details
         }
 
         public void bind(Order order) {
-            orderIdTextView.setText("Order ID: " + order.getOrder_id());
-            createdAtTextView.setText("Date: " + order.getCreated_at());
+            int backgroundMiddleColor = ContextCompat.getColor(itemView.getContext(), R.color.background_middle);
+            int backgroundDarkColor = ContextCompat.getColor(itemView.getContext(), R.color.background_dark);
 
-            StringBuilder itemsBuilder = new StringBuilder();
+            // Create a SpannableStringBuilder for the date
+            SpannableStringBuilder dateBuilder = new SpannableStringBuilder("Date: " + order.getCreated_at());
+
+            // Apply bold style to "Date:"
+            dateBuilder.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // Apply color to "Date:"
+            dateBuilder.setSpan(new ForegroundColorSpan(backgroundMiddleColor), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            createdAtTextView.setText(dateBuilder);
+
+            // StringBuilder to accumulate pizzas and toppings for the order
+            SpannableStringBuilder itemsBuilder = new SpannableStringBuilder();
+
+            // Iterate through each pizza and toppings in the order
             for (Item item : order.getItems()) {
-                itemsBuilder.append(item.getPizza()).append(" with ");
-                itemsBuilder.append(TextUtils.join(", ", item.getToppings()));
+                // Append the pizza name with "Pizza:" in bold
+                String pizzaText = "Pizza: " + item.getPizza();
+                int pizzaStart = itemsBuilder.length(); // Start position of the "Pizza:"
+                itemsBuilder.append(pizzaText);
+
+                // Apply bold style to "Pizza:"
+                itemsBuilder.setSpan(new StyleSpan(Typeface.BOLD), pizzaStart, pizzaStart + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                // Apply white color to "Pizza:"
+                itemsBuilder.setSpan(new ForegroundColorSpan(backgroundDarkColor), pizzaStart, pizzaStart + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                // Check if the pizza has toppings, and if so, append them
+                if (!item.getToppings().isEmpty()) {
+                    itemsBuilder.append(" with ").append(TextUtils.join(", ", item.getToppings()));
+                } else {
+                    itemsBuilder.append(" with no toppings");
+                }
+                // New line for next item
                 itemsBuilder.append("\n");
             }
-            itemsTextView.setText(itemsBuilder.toString());
+
+            // Set the text view to show the pizza and toppings information
+            itemsTextView.setText(itemsBuilder);
         }
-
-
     }
 }
 
