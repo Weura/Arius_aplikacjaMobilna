@@ -1,4 +1,4 @@
-package com.example.pizzeria.ui.order;
+package com.example.pizzeria.ui.cart;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,16 +14,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.pizzeria.R;
 import com.example.pizzeria.data.api.ApiClient;
 import com.example.pizzeria.data.api.ApiService;
 import com.example.pizzeria.data.model.OrderRequest;
 import com.example.pizzeria.data.model.OrderResponse;
+import com.example.pizzeria.databinding.FragmentMenuBinding;
+import com.example.pizzeria.ui.menu.MenuFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,29 +35,43 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderFragment extends Fragment {
+public class CartFragment extends Fragment {
 
     private EditText pizzaIdInput;
     private EditText toppingIdsInput;
-    private Button submitOrderButton;
+    private Button submitOrderButton, AddMoreOrdersPizzaButton, DeliveryTimeOrderButton, LocationOrderButton;
     private ApiService apiService;
+    private NavController navController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         pizzaIdInput = view.findViewById(R.id.pizza_id_input);
         toppingIdsInput = view.findViewById(R.id.topping_ids_input);
+        AddMoreOrdersPizzaButton = view.findViewById(R.id.add_more_pizzas_order_button);
+        DeliveryTimeOrderButton = view.findViewById(R.id.delivery_time_order_button);
+        LocationOrderButton = view.findViewById(R.id.location_order_button);
         submitOrderButton = view.findViewById(R.id.submit_order_button);
 
         // Initialize the API Service using ApiClient
         apiService = ApiClient.getClient().create(ApiService.class);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
 
         submitOrderButton.setOnClickListener(v -> submitOrder());
 
+        // Set OnClickListener for the "Add More Pizzas" button
+        AddMoreOrdersPizzaButton.setOnClickListener(v -> openMenuFragment());
+
         return view;
     }
+
+    private void openMenuFragment() {
+        // Zamiast ustawiać aktywny przycisk w BottomNavigationView, nawigujemy bezpośrednio do fragmentu menu
+        navController.navigate(R.id.navigation_menu);
+    }
+
 
     private void submitOrder() {
         // Fetch user ID from SharedPreferences
@@ -116,3 +134,4 @@ public class OrderFragment extends Fragment {
         });
     }
 }
+

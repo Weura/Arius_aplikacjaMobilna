@@ -7,10 +7,10 @@
     >
 
     <fragment
-        android:id="@+id/navigation_order"
-        android:name="com.example.pizzeria.ui.order.OrderFragment"
-        android:label="@string/title_order"
-        tools:layout="@layout/fragment_order" />
+        android:id="@+id/navigation_cart"
+        android:name="com.example.pizzeria.ui.cart.CartFragment"
+        android:label="@string/title_cart"
+        tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/navigation_menu"
         android:name="com.example.pizzeria.ui.menu.MenuFragment"

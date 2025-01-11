@@ -3,23 +3,19 @@ package com.example.pizzeria;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.example.pizzeria.ui.login.LoginActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.example.pizzeria.databinding.ActivityNavigationLoggedUserBinding;
+import com.example.pizzeria.ui.login.LoginActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NavigationLoggedUser extends AppCompatActivity {
-    // TODO: rating po zamowieniu (jest obowiazkowy)
-    // TODO: opłaty...
     private ActivityNavigationLoggedUserBinding binding;
     private NavController navController;
 
@@ -47,19 +43,9 @@ public class NavigationLoggedUser extends AppCompatActivity {
                 case R.id.navigation_menu:
                     navController.navigate(R.id.navigation_menu);
                     return true;
-                case R.id.navigation_order:
-                    if (isLoggedIn()) {
-                        navController.navigate(R.id.navigation_order);
-                    } else {
-                        showLoginToast(); // Show message to log in
-                    }
-                    return true;
+                case R.id.navigation_cart:
                 case R.id.navigation_history:
-                    if (isLoggedIn()) {
-                        navController.navigate(R.id.navigation_history);
-                    } else {
-                        showLoginToast(); // Show message to log in
-                    }
+                    navigateToFragmentWithLoginCheck(item.getItemId());
                     return true;
                 case R.id.navigation_login:
                     if (isLoggedIn()) {
@@ -74,10 +60,26 @@ public class NavigationLoggedUser extends AppCompatActivity {
         });
     }
 
-    private void updateMenuItems() {
+    private void navigateToFragmentWithLoginCheck(int itemId) {
+        if (isLoggedIn()) {
+            switch (itemId) {
+                case R.id.navigation_cart:
+                    navController.navigate(R.id.navigation_cart);
+                    break;
+                case R.id.navigation_history:
+                    navController.navigate(R.id.navigation_history);
+                    break;
+            }
+        } else {
+            showLoginToast(); // Show message to log in
+        }
+    }
+
+    // true when logout action
+    private void updateMenuItems(boolean fromLogout) {
         BottomNavigationView navView = binding.navView;
         MenuItem loginItem = navView.getMenu().findItem(R.id.navigation_login);
-        MenuItem orderItem = navView.getMenu().findItem(R.id.navigation_order);
+        MenuItem orderItem = navView.getMenu().findItem(R.id.navigation_cart);
         MenuItem historyItem = navView.getMenu().findItem(R.id.navigation_history);
 
         if (isLoggedIn()) {
@@ -85,18 +87,28 @@ public class NavigationLoggedUser extends AppCompatActivity {
             historyItem.setIcon(R.drawable.icon_history);
             orderItem.setIcon(R.drawable.icon_cart);
             loginItem.setIcon(R.drawable.icon_logout); // Replace with Logout icon
+
+            // If coming from logout action, reset selected item to avoid login/logout as active
+            if (!fromLogout) {
+                navView.setSelectedItemId(R.id.navigation_menu); // Make sure "Menu" is selected
+            }
         } else {
             loginItem.setTitle("Login");
             historyItem.setIcon(R.drawable.icon_history_unusable);
             orderItem.setIcon(R.drawable.icon_cart_unusable);
             loginItem.setIcon(R.drawable.icon_login); // Replace with Login icon
+
+            if (!fromLogout) {
+                navView.setSelectedItemId(R.id.navigation_menu); // Make sure "Menu" is selected
+            }
         }
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateMenuItems(); // Update the menu when activity resumes
+        updateMenuItems(false); // Update the menu when activity resumes
     }
 
     // Show a toast to prompt the user to log in
@@ -117,10 +129,12 @@ public class NavigationLoggedUser extends AppCompatActivity {
         Toast.makeText(this, "Wylogowano", Toast.LENGTH_SHORT).show();
 
         // Update the menu items to reflect the logout state
-        updateMenuItems();
+        updateMenuItems(true);
 
         // Redirect to the main menu
         navController.navigate(R.id.navigation_menu);
-    }
 
+        // Set "Menu" as selected item in BottomNavigationView after logout
+        binding.navView.setSelectedItemId(R.id.navigation_menu); // Ensure "Menu" is selected after logout
+    }
 }

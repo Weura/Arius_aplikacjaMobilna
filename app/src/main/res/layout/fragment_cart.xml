@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_black"
-    tools:context=".ui.order.OrderFragment">
+    tools:context=".ui.cart.CartFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,6 +23,17 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order away!"
+            android:textSize="40dp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textColor="@color/white_strong"
+            android:background="@color/main_black"
+            android:textStyle="bold|italic" />
 
         <EditText
             android:id="@+id/pizza_id_input"
@@ -42,6 +53,30 @@
             android:paddingLeft="10dp"
             android:textColor="@color/white_mild"
             android:inputType="text"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/add_more_pizzas_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add more pizzas"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/delivery_time_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Choose delivery time"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/location_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Choose location"
             android:padding="5dp" />
 
         <Button

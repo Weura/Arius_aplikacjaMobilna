@@ -2,7 +2,7 @@
     <string name="app_name">Pizzeria Fazzberia</string>
 
     <string name="title_menu">Menu</string>
-    <string name="title_order">Order</string>
+    <string name="title_cart">Cart</string>
     <string name="title_history">History</string>
 
     <string name="title_activity_login">LoginActivity</string>
