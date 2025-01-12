@@ -4,24 +4,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
+import com.example.pizzeria.data.model.OrderItem;
 import com.example.pizzeria.data.model.Pizza;
 
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.PizzaViewHolder> {
-    private List<Pizza> pizzaList;
+    private List<OrderItem> orderItemList; // Lista OrderItem, nie Pizza
 
-    public AdapterPizzaCart(List<Pizza> pizzaList) {
-        this.pizzaList = pizzaList != null ? pizzaList : new ArrayList<>();
+    public AdapterPizzaCart(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList != null ? orderItemList : new ArrayList<>();
     }
 
     @NonNull
@@ -33,24 +34,41 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
 
     @Override
     public void onBindViewHolder(@NonNull PizzaViewHolder holder, int position) {
-        Pizza pizza = pizzaList.get(position);
-        holder.pizzaNameTextView.setText(pizza.getName()); // Zakładając, że masz metodę getName() w klasie Pizza
-        holder.pizzaPriceTextView.setText(String.format("$%.2f", pizza.getPrice())); // Zakładając, że masz metodę getPrice()
-        Log.d("AdapterPizzaCart", "onBindViewHolder: Pizza name = " + pizza.getName());
+        OrderItem orderItem = orderItemList.get(position);
+        Pizza pizza = orderItem.getPizza(); // Pobranie pizzy z OrderItem
+        int quantity = orderItem.getQuantity();
+
+        holder.pizzaNameTextView.setText(pizza.getName()); // Nazwa pizzy
+        holder.pizzaPriceTextView.setText(String.format("$%.2f", pizza.getPrice())); // Cena pizzy (jednostkowa)
+//        holder.quantityTextView.setText(String.format("x%d", quantity)); // Wyświetlanie ilości
+
+        // Możesz dodać logikę dla przycisków, np. przycisk "+" i "-" do zmiany ilości
+        holder.removeButton.setOnClickListener(v -> {
+            if (quantity > 1) {
+                orderItem.decrementQuantity(); // Zmniejszenie ilości
+                notifyItemChanged(position); // Aktualizacja widoku
+            } else {
+                orderItemList.remove(position); // Usuwanie z listy
+                notifyItemRemoved(position); // Aktualizacja widoku
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return pizzaList.size();
+        return orderItemList.size();
     }
 
     public static class PizzaViewHolder extends RecyclerView.ViewHolder {
         TextView pizzaNameTextView, pizzaPriceTextView;
+        Button removeButton;
 
         public PizzaViewHolder(View itemView) {
             super(itemView);
-            pizzaNameTextView = itemView.findViewById(R.id.pizza_name);
-            pizzaPriceTextView = itemView.findViewById(R.id.pizza_price);
+            pizzaNameTextView = itemView.findViewById(R.id.pizza_name_cart);
+            pizzaPriceTextView = itemView.findViewById(R.id.pizza_price_cart);
+//            quantityTextView = itemView.findViewById(R.id.pizza_quantity_cart);
+            removeButton = itemView.findViewById(R.id.remove_pizza_from_cart_button);
         }
     }
 

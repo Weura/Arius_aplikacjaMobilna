@@ -43,7 +43,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
 
     private OrderItem findOrderItemByPizzaId(int pizzaId) {
         for (OrderItem orderItem : selectedPizzas) {
-            if (orderItem.getPizzaId() == pizzaId) {
+            if (orderItem.getPizza().getId() == pizzaId) {
                 return orderItem;
             }
         }
@@ -82,7 +82,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
                 existingItem.incrementQuantity(); // Zwiększ ilość
                 Log.d("Pizza Selection", "Pizza quantity increased: " + pizza.getName());
             } else {
-                selectedPizzas.add(new OrderItem(pizza.getId(), 1)); // Dodaj pizzę z ilością 1
+                selectedPizzas.add(new OrderItem(pizza, 1)); // Dodaj pizzę z ilością 1
                 Log.d("Pizza Selection", "Pizza added: " + pizza.getName());
             }
 
@@ -90,7 +90,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
             StringBuilder orderDetails = new StringBuilder("Selected Pizzas: ");
             for (OrderItem item : selectedPizzas) {
                 orderDetails.append("Pizza ID: ")
-                        .append(item.getPizzaId())
+                        .append(item.getPizza().getName())
                         .append(" x")
                         .append(item.getQuantity())
                         .append(", ");

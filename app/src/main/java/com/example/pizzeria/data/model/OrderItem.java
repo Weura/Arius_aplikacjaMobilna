@@ -1,16 +1,16 @@
 package com.example.pizzeria.data.model;
 
 public class OrderItem {
-    private int pizzaId;  // Przechowujemy tylko id pizzy
+    private Pizza pizza;  // Zmieniamy na przechowywanie obiektu klasy Pizza
     private int quantity; // Ilość wybranych pizz
 
-    public OrderItem(int pizzaId, int quantity) {
-        this.pizzaId = pizzaId;
+    public OrderItem(Pizza pizza, int quantity) {
+        this.pizza = pizza;
         this.quantity = quantity;
     }
 
-    public int getPizzaId() {
-        return pizzaId;
+    public Pizza getPizza() {
+        return pizza;
     }
 
     public int getQuantity() {
@@ -28,7 +28,7 @@ public class OrderItem {
     }
 
     public void setQuantity(int quantity) {
-        if (quantity >= 0) {  // Upewnij się, że ilość jest nieujemna
+        if (quantity >= 0) {
             this.quantity = quantity;
         }
     }
@@ -38,18 +38,18 @@ public class OrderItem {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         OrderItem that = (OrderItem) obj;
-        return pizzaId == that.pizzaId; // Porównujemy tylko identyfikator pizzy
+        return pizza.equals(that.pizza); // Porównujemy teraz obiekty pizza
     }
 
     @Override
     public int hashCode() {
-        return pizzaId; // Unikalny hashCode na podstawie id pizzy
+        return pizza.hashCode(); // HashCode na podstawie obiektu pizza
     }
 
     @Override
     public String toString() {
         return "OrderItem{" +
-                "pizzaId=" + pizzaId +
+                "pizza=" + pizza.getName() +
                 ", quantity=" + quantity +
                 '}';
     }

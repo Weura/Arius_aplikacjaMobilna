@@ -24,18 +24,24 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import com.example.pizzeria.R;
 import com.example.pizzeria.RateActivity;
 import com.example.pizzeria.data.api.ApiClient;
 import com.example.pizzeria.data.api.ApiService;
+import com.example.pizzeria.data.model.OrderItem;
 import com.example.pizzeria.data.model.OrderRequest;
 import com.example.pizzeria.data.model.OrderResponse;
 
+import com.example.pizzeria.ui.SharedViewModel;
 import com.example.pizzeria.ui.login.LoginActivity;
+import com.example.pizzeria.ui.menu.MenuFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,6 +63,10 @@ public class CartFragment extends Fragment {
     private EditText pizzaIdInput;
     private EditText toppingIdsInput;
 
+    private RecyclerView recyclerView;
+    private AdapterPizzaCart pizzaCartAdapter;
+    private SharedViewModel sharedViewModel;
+
     // Location
     private EditText locationInput;
     private Button getLocationButton;
@@ -76,13 +86,32 @@ public class CartFragment extends Fragment {
             "July", "August", "September", "October", "November", "December"};
 
 
+//    @Override
+//    public void onCreate (Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//        // Inicjalizacja ViewModel
+//        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+//        sharedViewModel.getSelectedPizzas().observe(getViewLifecycleOwner(), this::updateCart);
+//    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate the layout
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+
+        // Initialize the ViewModel here instead of onCreate
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Now it's safe to observe LiveData as the fragment's view is created
+        sharedViewModel.getSelectedPizzas().observe(getViewLifecycleOwner(), this::updateCart);
 
         pizzaIdInput = view.findViewById(R.id.pizza_id_input);
         toppingIdsInput = view.findViewById(R.id.topping_ids_input);
+
+        recyclerView = view.findViewById(R.id.cart_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         addMoreOrdersPizzaButton = view.findViewById(R.id.add_more_pizzas_order_button);
 
@@ -143,10 +172,27 @@ public class CartFragment extends Fragment {
         return view;
     }
 
-    private void openMenuFragment() {
-        // Zamiast ustawiać aktywny przycisk w BottomNavigationView, nawigujemy bezpośrednio do fragmentu menu
-        navController.navigate(R.id.navigation_menu);
+    private void updateCart(List<OrderItem> selectedPizzas) {
+        // Aktualizuj dane w adapterze
+        if (pizzaCartAdapter == null) {
+            pizzaCartAdapter = new AdapterPizzaCart(selectedPizzas);
+            recyclerView.setAdapter(pizzaCartAdapter);
+        } else {
+            pizzaCartAdapter.notifyDataSetChanged();
+        }
     }
+
+    private void openMenuFragment() {
+        // Get the current fragment in the navigation controller's back stack
+        Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+
+        // Check if we're already on the MenuFragment
+        if (!(currentFragment instanceof MenuFragment)) {
+            // Only navigate if we're not already on the MenuFragment
+            navController.navigate(R.id.navigation_menu);
+        }
+    }
+
 
     //    // Obsługa odpowiedzi użytkownika
     @Override
@@ -244,21 +290,24 @@ public class CartFragment extends Fragment {
 
 
     private void submitOrder() {
+        // Disable the button to prevent multiple clicks
+        submitOrderButton.setEnabled(false);
+
         // Fetch user ID from SharedPreferences
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         int userId = prefs.getInt("user_id", -1);
 
         if (userId == -1) {
             Toast.makeText(getContext(), "User ID not found. Please log in.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true); // Re-enable button
             return;
         }
-
-        Log.d("APIlogiks", "user id: " + userId);
 
         // Validate and prepare order data
         String pizzaIdText = pizzaIdInput.getText().toString().trim();
         if (pizzaIdText.isEmpty()) {
             Toast.makeText(getContext(), "Please enter a valid Pizza ID.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true); // Re-enable button
             return;
         }
 
@@ -273,14 +322,11 @@ public class CartFragment extends Fragment {
                     toppingIds.add(Integer.parseInt(toppingId.trim()));
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Invalid Topping ID: " + toppingId, Toast.LENGTH_SHORT).show();
+                    submitOrderButton.setEnabled(true); // Re-enable button
                     return;
                 }
             }
         }
-
-        // Download location
-        String location = locationInput.getText().toString().trim();
-
 
         // Prepare order items
         List<OrderRequest.OrderItem> items = Collections.singletonList(new OrderRequest.OrderItem(pizzaId, toppingIds));
@@ -291,19 +337,18 @@ public class CartFragment extends Fragment {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d("APIlogiks", "poszlo: " + response.body());
                     Toast.makeText(getContext(), "Order placed successfully! Order ID: " + response.body().getOrderId(), Toast.LENGTH_LONG).show();
                 } else {
-                    Log.d("APIlogiks", "nie poszlo: " + response.body());
                     String errorMessage = response.errorBody() != null ? response.errorBody().toString() : "Unknown error";
                     Toast.makeText(getContext(), "Failed to place order: " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
+                submitOrderButton.setEnabled(true); // Re-enable button
             }
 
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
-                Log.d("APIlogiks", "onFailure");
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                submitOrderButton.setEnabled(true); // Re-enable button
             }
         });
     }

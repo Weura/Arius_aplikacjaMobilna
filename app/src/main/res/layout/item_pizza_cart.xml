@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Pizza Name"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white_mild"
             android:ellipsize="end"
             android:maxLines="1" />
 
@@ -36,9 +36,10 @@
             android:layout_height="wrap_content"
             android:text="Price"
             android:textSize="16sp"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/white_mild"/>
 
         <Button
+            android:id="@+id/remove_pizza_from_cart_button"
             android:layout_width="30dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
@@ -46,7 +47,7 @@
             android:textSize="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="20dp" />
 
     </LinearLayout>
 
