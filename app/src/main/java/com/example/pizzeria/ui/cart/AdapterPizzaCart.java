@@ -79,22 +79,27 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
             }
         });
 
+        // Remove item from cart
         holder.removeButton.setOnClickListener(v -> {
-            String uniqueIdToRemove = orderItem.getUniqueId(); // Pobieramy unikalny ID elementu do usunięcia
+            String uniqueIdToRemove = orderItem.getUniqueId();
+            int positionToRemove = -1;
 
-            // Usuwanie elementu na podstawie uniqueId
+            // Find item to remove by unique ID
             for (int i = 0; i < orderItemList.size(); i++) {
                 if (orderItemList.get(i).getUniqueId().equals(uniqueIdToRemove)) {
-                    orderItemList.remove(i); // Usuwamy element
-                    notifyItemRemoved(i); // Powiadomienie RecyclerView o zmianach
-                    break; // Przerywamy, bo usunięto element
+                    positionToRemove = i;
+                    break;
                 }
             }
 
-            // Jeżeli lista jest pusta, wyświetl odpowiedni komunikat
-            if (orderItemList.isEmpty()) {
-                Log.d("AdapterPizzaCart", "Koszyk jest pusty");
-                // Można tutaj np. pokazać pusty widok lub przekierować użytkownika
+            if (positionToRemove != -1) {
+                orderItemList.remove(positionToRemove);
+                notifyItemRemoved(positionToRemove);
+
+                // Log when the cart is empty
+                if (orderItemList.isEmpty()) {
+                    Log.d("AdapterPizzaCart", "Koszyk jest pusty");
+                }
             }
         });
 
@@ -102,7 +107,7 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
     }
 
     public static class PizzaViewHolder extends RecyclerView.ViewHolder {
-        TextView pizzaNameTextView, pizzaPriceTextView;
+        TextView pizzaNameTextView, pizzaPriceTextView, pizzaToppingsTextView;;
         Spinner toppingSpinner;
         RecyclerView selectedToppingsRecyclerView;
         Button removeButton;
@@ -114,6 +119,7 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
             toppingSpinner = itemView.findViewById(R.id.topping_spinner);
             selectedToppingsRecyclerView = itemView.findViewById(R.id.selected_toppings_list); // Ensure this matches the XML ID
             removeButton = itemView.findViewById(R.id.remove_pizza_from_cart_button);
+            pizzaToppingsTextView = itemView.findViewById(R.id.pizza_toppings_cart);
         }
     }
 
