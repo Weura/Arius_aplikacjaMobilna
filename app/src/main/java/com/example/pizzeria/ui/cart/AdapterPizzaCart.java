@@ -40,7 +40,6 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
 
         holder.pizzaNameTextView.setText(pizza.getName()); // Nazwa pizzy
         holder.pizzaPriceTextView.setText(String.format("$%.2f", pizza.getPrice())); // Cena pizzy (jednostkowa)
-//        holder.quantityTextView.setText(String.format("x%d", quantity)); // Wyświetlanie ilości
 
         // Możesz dodać logikę dla przycisków, np. przycisk "+" i "-" do zmiany ilości
         holder.removeButton.setOnClickListener(v -> {
@@ -67,7 +66,6 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
             super(itemView);
             pizzaNameTextView = itemView.findViewById(R.id.pizza_name_cart);
             pizzaPriceTextView = itemView.findViewById(R.id.pizza_price_cart);
-//            quantityTextView = itemView.findViewById(R.id.pizza_quantity_cart);
             removeButton = itemView.findViewById(R.id.remove_pizza_from_cart_button);
         }
     }

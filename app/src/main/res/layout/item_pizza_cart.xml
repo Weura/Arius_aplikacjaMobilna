@@ -22,29 +22,35 @@
 
         <TextView
             android:id="@+id/pizza_name_cart"
-            android:layout_width="200sp"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:text="Pizza Name"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
             android:textColor="@color/white_mild"
             android:ellipsize="end"
             android:maxLines="1" />
 
         <TextView
             android:id="@+id/pizza_price_cart"
-            android:layout_width="wrap_content"
+            android:layout_width="80sp"
             android:layout_height="wrap_content"
             android:text="Price"
             android:textSize="16sp"
+            android:textStyle="italic"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/white_mild"/>
 
         <Button
             android:id="@+id/remove_pizza_from_cart_button"
-            android:layout_width="30dp"
-            android:layout_height="35dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:text="-"
-            android:textSize="5dp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="20dp" />

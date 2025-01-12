@@ -53,13 +53,15 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:background="@color/black">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white_background">
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hour:"
-                android:textColor="@color/white_mild"
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
 
             <Spinner
@@ -71,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Minute:"
-                android:textColor="@color/white_mild"
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
 
             <Spinner
@@ -88,13 +90,14 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:background="@color/black">
+            android:layout_marginBottom="5dp"
+            android:background="@color/white_background">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Day:"
-                android:textColor="@color/white_mild"
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
 
             <Spinner
@@ -107,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Month:"
-                android:textColor="@color/white_mild"
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
 
             <Spinner
@@ -133,12 +136,13 @@
             android:layout_height="wrap_content"
             android:hint="Enter location"
             android:layout_gravity="center"
-            android:background="@color/black"
-            android:textColor="@color/white_mild"
-            android:textColorHint="@color/white_mild"
+            android:background="@color/white_background"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:textSize="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
             android:padding="10dp" />
 
         <Button
