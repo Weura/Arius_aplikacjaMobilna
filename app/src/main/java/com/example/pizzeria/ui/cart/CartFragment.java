@@ -352,10 +352,22 @@ public class CartFragment extends Fragment {
         List<OrderRequest.OrderItem> items = new ArrayList<>();
         for (OrderItem selectedItem : selectedItems) {
             if (selectedItem != null && selectedItem.getPizza() != null) {
-                // Create OrderRequest.OrderItem using pizzaId and empty list of toppings
+                // Map topping names to their IDs
+                List<String> toppingNames = selectedItem.getToppings();
+                List<Integer> toppingIds = new ArrayList<>();
+
+                // Assume you have a method to get the topping ID from the name
+                for (String toppingName : toppingNames) {
+                    Integer toppingId = getToppingIdByName(toppingName); // Add a method to fetch ID by name
+                    if (toppingId != null) {
+                        toppingIds.add(toppingId);
+                    }
+                }
+
+                // Create OrderRequest.OrderItem using pizzaId and selected topping IDs
                 OrderRequest.OrderItem orderItem = new OrderRequest.OrderItem(
                         selectedItem.getPizza().getId(),  // Get pizza ID
-                        new ArrayList<>() // Empty list of toppings for now
+                        toppingIds // Add selected topping IDs
                 );
                 items.add(orderItem);
             } else {
@@ -405,6 +417,25 @@ public class CartFragment extends Fragment {
             pizzaCartAdapter.notifyDataSetChanged(); // Notify adapter about data change
         } else {
             Log.e("CartUI", "pizzaCartAdapter is not initialized!");
+        }
+    }
+
+    private Integer getToppingIdByName(String toppingName) {
+        // This is a simple placeholder logic for mapping topping names to IDs.
+        // Replace this with your actual mapping logic or API call to fetch the topping ID.
+        switch (toppingName) {
+            case "Cheese":
+                return 1;
+            case "Pepperoni":
+                return 2;
+            case "Mushrooms":
+                return 3;
+            case "Onions":
+                return 4;
+            case "Olives":
+                return 5;
+            default:
+                return null;
         }
     }
 

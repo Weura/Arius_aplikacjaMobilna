@@ -31,13 +31,25 @@ public class OrderItem {
         return pizza != null ? pizza.getId() : null;
     }
 
-    public void addTopping(String topping) {
-        toppings.add(topping);
-    }
+//    public void addTopping(String topping) {
+//        toppings.add(topping);
+//    }
 
+    // Getter and Setter for toppings
     public List<String> getToppings() {
         return toppings;
     }
 
+    public void setToppings(List<String> toppings) {
+        this.toppings = toppings;
+    }
+
+    // Add topping method
+    public void addTopping(String topping) {
+        if (toppings == null) {
+            toppings = new ArrayList<>();
+        }
+        toppings.add(topping);
+    }
 
 }
