@@ -196,10 +196,10 @@ public class CartFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Użytkownik udzielił uprawnień, uzyskujemy lokalizację
+                // User granted permissions, just get location
                 getLocation();
             } else {
-                // Uprawnienia zostały odrzucone
+                // Permissions were rejected
                 Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
@@ -233,15 +233,16 @@ public class CartFragment extends Fragment {
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Nie ma uprawnień, trzeba poprosić użytkownika
+            // If permissions are not granted, ask the user for permissions
             ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            // Mamy uprawnienia, możemy uzyskać lokalizację
+            // If we already have permissions, get the location
             getLocation();
         }
     }
+
 
     // Funkcja do pobierania lokalizacji
     private void getLocation() {
