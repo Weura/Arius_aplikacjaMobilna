@@ -48,6 +48,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -60,8 +61,6 @@ import retrofit2.Response;
 
 public class CartFragment extends Fragment {
 
-    private EditText pizzaIdInput;
-    private EditText toppingIdsInput;
 
     private RecyclerView recyclerView;
     private AdapterPizzaCart pizzaCartAdapter;
@@ -74,7 +73,7 @@ public class CartFragment extends Fragment {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
 
 
-    private Spinner hourSpinner, minuteSpinner, daySpinner, monthSpinner;
+    private Spinner hourSpinner, minuteSpinner, daySpinner, monthSpinner, yearSpinner;
     private Button submitOrderButton, addMoreOrdersPizzaButton;
     private ApiService apiService;
     private NavController navController;
@@ -85,16 +84,7 @@ public class CartFragment extends Fragment {
     private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
 
-
-//    @Override
-//    public void onCreate (Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        // Inicjalizacja ViewModel
-//        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-//        sharedViewModel.getSelectedPizzas().observe(getViewLifecycleOwner(), this::updateCart);
-//    }
-
+    private static final String[] YEARS = new String [2]; // current and next
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,9 +97,6 @@ public class CartFragment extends Fragment {
         // Now it's safe to observe LiveData as the fragment's view is created
         sharedViewModel.getSelectedPizzas().observe(getViewLifecycleOwner(), this::updateCart);
 
-        pizzaIdInput = view.findViewById(R.id.pizza_id_input);
-        toppingIdsInput = view.findViewById(R.id.topping_ids_input);
-
         recyclerView = view.findViewById(R.id.cart_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -119,6 +106,10 @@ public class CartFragment extends Fragment {
         minuteSpinner = view.findViewById(R.id.minute_spinner);
         daySpinner = view.findViewById(R.id.day_spinner);
         monthSpinner = view.findViewById(R.id.month_spinner);
+        yearSpinner = view.findViewById(R.id.year_spinner);
+
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
 
         // Initialize the Spinner data
         for (int i = 0; i < 24; i++) {
@@ -130,6 +121,9 @@ public class CartFragment extends Fragment {
         for (int i = 0; i < 31; i++) {
             DAYS[i] = String.format("%02d", i + 1);
         }
+        YEARS[0] = String.valueOf(currentYear);         // Rok bieżący
+        YEARS[1] = String.valueOf(currentYear + 1);     // Przyszły rok
+
 
         // Set the adapters for each spinner
         ArrayAdapter<String> hourAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, HOURS);
@@ -147,6 +141,10 @@ public class CartFragment extends Fragment {
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, MONTHS);
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);
+
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, YEARS);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(yearAdapter);
 
         submitOrderButton = view.findViewById(R.id.submit_order_button);
 
@@ -192,7 +190,6 @@ public class CartFragment extends Fragment {
             navController.navigate(R.id.navigation_menu);
         }
     }
-
 
     //    // Obsługa odpowiedzi użytkownika
     @Override
@@ -303,41 +300,91 @@ public class CartFragment extends Fragment {
             return;
         }
 
-        // Validate and prepare order data
-        String pizzaIdText = pizzaIdInput.getText().toString().trim();
-        if (pizzaIdText.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter a valid Pizza ID.", Toast.LENGTH_SHORT).show();
-            submitOrderButton.setEnabled(true); // Re-enable button
+        // Fetch user input for location
+        String location = locationInput.getText().toString().trim();
+        if (location.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter a location.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
             return;
         }
 
-        int pizzaId = Integer.parseInt(pizzaIdText);
+        // Fetch user-selected delivery time from spinners
+        int hour = Integer.parseInt(HOURS[hourSpinner.getSelectedItemPosition()]);
+        int minute = Integer.parseInt(MINUTES[minuteSpinner.getSelectedItemPosition()]);
+        int day = Integer.parseInt(DAYS[daySpinner.getSelectedItemPosition()]);
+        int month = monthSpinner.getSelectedItemPosition(); // Month is 0-based
+        int year = Integer.parseInt(YEARS[yearSpinner.getSelectedItemPosition()]);
 
-        List<Integer> toppingIds = new ArrayList<>();
-        String toppingsInput = toppingIdsInput.getText().toString().trim();
-        if (!toppingsInput.isEmpty()) {
-            String[] toppingIdsStr = toppingsInput.split(",");
-            for (String toppingId : toppingIdsStr) {
-                try {
-                    toppingIds.add(Integer.parseInt(toppingId.trim()));
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Invalid Topping ID: " + toppingId, Toast.LENGTH_SHORT).show();
-                    submitOrderButton.setEnabled(true); // Re-enable button
-                    return;
-                }
+        Calendar deliveryCalendar = Calendar.getInstance();
+        deliveryCalendar.set(Calendar.YEAR, year);
+        deliveryCalendar.set(Calendar.MONTH, month);
+        deliveryCalendar.set(Calendar.DAY_OF_MONTH, day);
+        deliveryCalendar.set(Calendar.HOUR_OF_DAY, hour);
+        deliveryCalendar.set(Calendar.MINUTE, minute);
+
+        Calendar currentCalendar = Calendar.getInstance();
+
+        // Ensure delivery time is valid
+        if (deliveryCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
+            Toast.makeText(getContext(), "Impossible to make a delivery in the past.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return;
+        }
+        if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
+            Toast.makeText(getContext(), "Give us at least 30 minutes to prepare your order.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return;
+        }
+
+        Log.d("SubmitOrder", "Delivery date is valid. Proceeding...");
+
+        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                .format(deliveryCalendar.getTime());
+
+        // Prepare order items
+        List<OrderItem> selectedItems = sharedViewModel.getSelectedPizzas().getValue();
+        if (selectedItems == null || selectedItems.isEmpty()) {
+            Toast.makeText(getContext(), "Your cart is empty. Add items before placing an order.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return; // Don't proceed if the cart is empty
+        }
+
+        List<OrderRequest.OrderItem> items = new ArrayList<>();
+        for (OrderItem selectedItem : selectedItems) {
+            if (selectedItem != null && selectedItem.getPizza() != null) {
+                // Create OrderRequest.OrderItem using pizzaId and empty list of toppings
+                OrderRequest.OrderItem orderItem = new OrderRequest.OrderItem(
+                        selectedItem.getPizza().getId(),  // Get pizza ID
+                        new ArrayList<>() // Empty list of toppings for now
+                );
+                items.add(orderItem);
+            } else {
+                Log.e("Finalisation", "Invalid pizza or selected item. Skipping this item.");
             }
         }
 
-        // Prepare order items
-        List<OrderRequest.OrderItem> items = Collections.singletonList(new OrderRequest.OrderItem(pizzaId, toppingIds));
-        OrderRequest orderRequest = new OrderRequest(userId, items);
+//        Log.d("ORDERLogamiks", "userId: " + userId);
+//        Log.d("ORDERLogamiks", "location: " + location);
+//        Log.d("ORDERLogamiks", "deliveryTime: " + deliveryTime);
+        Log.d("Finalisation", "items" + items);
+
+        OrderRequest orderRequest = new OrderRequest(
+                userId,
+                location,
+                deliveryTime,
+                items
+        );
 
         // Make the API call
         apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(getContext(), "Order placed successfully! Order ID: " + response.body().getOrderId(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_LONG).show();
+
+                    sharedViewModel.clearPizzas();
+
+                    updateCartUI();
                 } else {
                     String errorMessage = response.errorBody() != null ? response.errorBody().toString() : "Unknown error";
                     Toast.makeText(getContext(), "Failed to place order: " + errorMessage, Toast.LENGTH_SHORT).show();
@@ -353,6 +400,15 @@ public class CartFragment extends Fragment {
         });
     }
 
+    private void updateCartUI() {
+        if (pizzaCartAdapter != null) {
+            pizzaCartAdapter.notifyDataSetChanged(); // Notify adapter about data change
+        } else {
+            Log.e("CartUI", "pizzaCartAdapter is not initialized!");
+        }
+    }
+
+
     private void validateAndSetDeliveryTime() {
         int hour = Integer.parseInt(HOURS[hourSpinner.getSelectedItemPosition()]);
         int minute = Integer.parseInt(MINUTES[minuteSpinner.getSelectedItemPosition()]);
@@ -366,7 +422,6 @@ public class CartFragment extends Fragment {
         deliveryCalendar.set(Calendar.DAY_OF_MONTH, day);
         deliveryCalendar.set(Calendar.HOUR_OF_DAY, hour);
         deliveryCalendar.set(Calendar.MINUTE, minute);
-        deliveryCalendar.set(Calendar.SECOND, 0);
 
         // Check if delivery time is at least 30 minutes from now
         if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {

@@ -75,38 +75,31 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
         }
 
         holder.addPizzaToCartButton.setOnClickListener(v -> {
-            // Znajdź, czy ta pizza już istnieje w liście zamówienia na podstawie id
-            OrderItem existingItem = findOrderItemByPizzaId(pizza.getId());
+            if (pizza != null) {
+                // Tworzymy OrderItem
+                OrderItem orderItem = new OrderItem(pizza);
 
-            if (existingItem != null) {
-                existingItem.incrementQuantity(); // Zwiększ ilość
-                Log.d("Pizza Selection", "Pizza quantity increased: " + pizza.getName());
-            } else {
-                selectedPizzas.add(new OrderItem(pizza, 1)); // Dodaj pizzę z ilością 1
-                Log.d("Pizza Selection", "Pizza added: " + pizza.getName());
+                // Pobieramy aktualną listę pizz z SharedViewModel
+                List<OrderItem> currentSelectedPizzas = sharedViewModel.getSelectedPizzas().getValue();
+
+                    // Jeśli pizza nie została jeszcze dodana, dodaj ją do koszyka
+                sharedViewModel.addPizza(orderItem); // Wywołanie metody addPizza z SharedViewModel
+
+                // Logowanie wybranych pizz
+                StringBuilder orderDetails = new StringBuilder("Selected Pizzas: ");
+                for (OrderItem item : currentSelectedPizzas) {
+                    orderDetails.append("Pizza ID: ")
+                            .append(item.getUniqueId())
+                            .append(", Pizza Name: ")
+                            .append(item.getPizza().getName())
+                            .append(", ");
+                }
+
+                Log.d("PizzaAdapter", "Selected Pizzas: " + orderDetails.toString());
+
+                // Aktualizowanie adaptera
+                notifyDataSetChanged();
             }
-
-            // Logowanie wszystkich pizzy w zamówieniu
-            StringBuilder orderDetails = new StringBuilder("Selected Pizzas: ");
-            for (OrderItem item : selectedPizzas) {
-                orderDetails.append("Pizza ID: ")
-                        .append(item.getPizza().getName())
-                        .append(" x")
-                        .append(item.getQuantity())
-                        .append(", ");
-            }
-
-            Log.d("PizzaAdapter", "Selected Pizzas: " + orderDetails.toString());
-
-            // Aktualizowanie LiveData w SharedViewModel
-            if (sharedViewModel != null) {
-                sharedViewModel.updateSelectedPizzas(new ArrayList<>(selectedPizzas));
-            } else {
-                Log.e("PizzaAdapter", "SharedViewModel is null");
-            }
-
-            // Powiadomienie adaptera o zmianach (aktualizowanie widoku)
-            notifyDataSetChanged();
         });
     }
 
@@ -114,7 +107,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
     public int getItemCount() {
         return pizzaList != null ? pizzaList.size() : 0; // Zwróć 0, jeśli lista jest null
     }
-
 
     public List<OrderItem> getSelectedPizzas() {
         return new ArrayList<>(selectedPizzas);

@@ -118,6 +118,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/CustomSpinner" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white_background">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Year:"
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/year_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
         </LinearLayout>
 
         <TextView
@@ -189,27 +213,6 @@
             android:layout_gravity="center"
             android:text="Order Now"
             android:padding="5dp" />
-
-        <EditText
-            android:id="@+id/pizza_id_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pizza ID"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white_mild"
-            android:inputType="number"
-            android:padding="5dp"/>
-
-        <EditText
-            android:id="@+id/topping_ids_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Topping IDs (comma-separated)"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white_mild"
-            android:inputType="text"
-            android:padding="5dp" />
-
     </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
