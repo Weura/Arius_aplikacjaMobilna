@@ -20,8 +20,13 @@ public class SharedViewModel extends ViewModel {
     }
 
     public void updateSelectedPizzas(List<OrderItem> pizzas) {
-        Log.d("SharedViewModel", "Updating selected pizzas: " + pizzas);
+        // Log przed zmianą
+        Log.d("SharedViewModel", "Before updating: " + pizzas.toString());
+
         selectedPizzas.setValue(pizzas);
+
+        // Log po zmianie
+        Log.d("SharedViewModel", "Updated selected pizzas: " + pizzas.toString());
     }
 }
 
