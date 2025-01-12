@@ -313,7 +313,7 @@ public class CartFragment extends Fragment {
         int minute = Integer.parseInt(MINUTES[minuteSpinner.getSelectedItemPosition()]);
         int day = Integer.parseInt(DAYS[daySpinner.getSelectedItemPosition()]);
         int month = monthSpinner.getSelectedItemPosition(); // Month is 0-based
-        int year = Integer.parseInt(YEARS[yearSpinner.getSelectedItemPosition()]); // Pobierz wybrany rok
+        int year = Integer.parseInt(YEARS[yearSpinner.getSelectedItemPosition()]);
 
         Calendar deliveryCalendar = Calendar.getInstance();
         deliveryCalendar.set(Calendar.YEAR, year);
@@ -325,24 +325,22 @@ public class CartFragment extends Fragment {
         Calendar currentCalendar = Calendar.getInstance();
 
         // Ensure delivery time is valid
-//        if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
-//            Toast.makeText(getContext(), "The delivery time must be at least 30 minutes from now.", Toast.LENGTH_SHORT).show();
-//            submitOrderButton.setEnabled(true);
-//            return;
-//        }
+        if (deliveryCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
+            Toast.makeText(getContext(), "Impossible to make a delivery in the past.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return;
+        }
 
-//        if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
-//            Toast.makeText(getContext(), "The delivery time must be at least 30 minutes from now.", Toast.LENGTH_SHORT).show();
-//        } else if (deliveryCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
-//            Toast.makeText(getContext(), "You cannot select a time in the past.", Toast.LENGTH_SHORT).show();
-//        } else {
-//            // Wyświetl potwierdzenie w Toast
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-//            String formattedTime = sdf.format(deliveryCalendar.getTime());
-//            Toast.makeText(getContext(), "Delivery Time: " + formattedTime, Toast.LENGTH_SHORT).show();
-//        }
+        if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
+            Toast.makeText(getContext(), "Give us at least 30 minutes to prepare your order.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return;
+        }
 
-        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        Log.d("SubmitOrder", "Delivery date is valid. Proceeding...");
+
+
+        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
                 .format(deliveryCalendar.getTime());
 
 
@@ -377,6 +375,11 @@ public class CartFragment extends Fragment {
 
         // Make the API call
         apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
+//            if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
+//                Log.e("API_CALL", "Invalid delivery time. Request will not be sent.");
+//                return;
+//            }
+
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -409,7 +412,6 @@ public class CartFragment extends Fragment {
         deliveryCalendar.set(Calendar.DAY_OF_MONTH, day);
         deliveryCalendar.set(Calendar.HOUR_OF_DAY, hour);
         deliveryCalendar.set(Calendar.MINUTE, minute);
-        deliveryCalendar.set(Calendar.SECOND, 0);
 
         // Check if delivery time is at least 30 minutes from now
         if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
