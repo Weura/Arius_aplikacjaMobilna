@@ -1,5 +1,6 @@
 package com.example.pizzeria.ui.cart;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.pizzeria.data.model.Pizza;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,7 +21,7 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
     private List<Pizza> pizzaList;
 
     public AdapterPizzaCart(List<Pizza> pizzaList) {
-        this.pizzaList = pizzaList;
+        this.pizzaList = pizzaList != null ? pizzaList : new ArrayList<>();
     }
 
     @NonNull
@@ -34,6 +36,7 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
         Pizza pizza = pizzaList.get(position);
         holder.pizzaNameTextView.setText(pizza.getName()); // Zakładając, że masz metodę getName() w klasie Pizza
         holder.pizzaPriceTextView.setText(String.format("$%.2f", pizza.getPrice())); // Zakładając, że masz metodę getPrice()
+        Log.d("AdapterPizzaCart", "onBindViewHolder: Pizza name = " + pizza.getName());
     }
 
     @Override
@@ -50,5 +53,5 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
             pizzaPriceTextView = itemView.findViewById(R.id.pizza_price);
         }
     }
-}
 
+}
