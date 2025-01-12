@@ -5,6 +5,7 @@ public class Pizza {
     private String name;
     private String details;
     private double price;
+    private boolean isSelected;
     @SerializedName("image_url")
     private String imageUrl;
 
@@ -49,6 +50,14 @@ public class Pizza {
         this.imageUrl = imageUrl;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     @Override
     public String toString() {
         return "Pizza{" +
@@ -57,6 +66,20 @@ public class Pizza {
                 ", details='" + details + '\'' +
                 ", price=" + price +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", isSelected=" + isSelected +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true; // Sprawdzanie referencji
+        if (o == null || getClass() != o.getClass()) return false; // Sprawdzanie klasy
+        Pizza pizza = (Pizza) o;
+        return id == pizza.id; // Porównywanie ID
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id); // Generowanie hash na podstawie ID
     }
 }

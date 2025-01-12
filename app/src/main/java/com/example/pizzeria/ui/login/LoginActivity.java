@@ -151,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         ratePageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(LoginActivity.this, RateActivity.class);
                 startActivity(intent);
             }

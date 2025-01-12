@@ -35,25 +35,7 @@
             android:background="@color/main_black"
             android:textStyle="bold|italic" />
 
-        <EditText
-            android:id="@+id/pizza_id_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pizza ID"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white_mild"
-            android:inputType="number"
-            android:padding="5dp"/>
 
-        <EditText
-            android:id="@+id/topping_ids_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Topping IDs (comma-separated)"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white_mild"
-            android:inputType="text"
-            android:padding="5dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -156,6 +138,7 @@
             android:textColorHint="@color/white_mild"
             android:textSize="20dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:padding="10dp" />
 
         <Button
@@ -166,7 +149,26 @@
             android:text="Get Current Location"
             android:padding="5dp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Added pizzas"
+            android:gravity="center"
+            android:textColor="@color/white_mild"
+            android:background="@color/black_another"
+            android:textSize="20dp"
+            android:padding="5dp" />
 
+        <!-- RecyclerView do wyświetlania pizzy w koszyku -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cart_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/white_mild"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <Button
             android:id="@+id/add_more_pizzas_order_button"
@@ -182,6 +184,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Order Now"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/pizza_id_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pizza ID"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
+            android:inputType="number"
+            android:padding="5dp"/>
+
+        <EditText
+            android:id="@+id/topping_ids_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Topping IDs (comma-separated)"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white_mild"
+            android:inputType="text"
             android:padding="5dp" />
 
     </LinearLayout>

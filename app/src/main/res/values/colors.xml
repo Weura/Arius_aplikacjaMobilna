@@ -8,8 +8,9 @@
     <color name="black">#232222</color>
     <color name="white_strong">#FFFFFF</color>
     <color name="white_mild">#EAEAEA</color>
+    <color name="white_background">#E6CBAF</color>
     <color name="background_black">#151515</color>
 
-    <color name="black_another">#272727</color>
+    <color name="black_another">#303030</color>
     <color name="main_black">#36342e</color>
 </resources>

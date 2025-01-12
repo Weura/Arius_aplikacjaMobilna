@@ -21,6 +21,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish(); // Finish the welcome activity so it's removed from the stack
             }
-        }, 3000); // 3000ms (3 seconds) delay for the splash screen
+        }, 500); // 3000ms (3 seconds) delay for the splash screen
     }
 }

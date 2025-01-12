@@ -1,6 +1,7 @@
 package com.example.pizzeria.ui.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
@@ -28,11 +29,13 @@ import androidx.navigation.Navigation;
 
 import android.Manifest;
 import com.example.pizzeria.R;
+import com.example.pizzeria.RateActivity;
 import com.example.pizzeria.data.api.ApiClient;
 import com.example.pizzeria.data.api.ApiService;
 import com.example.pizzeria.data.model.OrderRequest;
 import com.example.pizzeria.data.model.OrderResponse;
 
+import com.example.pizzeria.ui.login.LoginActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/addPizzaToCartButton"
+            android:id="@+id/add_pizza_to_cart_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:text="+"
