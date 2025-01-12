@@ -48,6 +48,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -60,8 +61,6 @@ import retrofit2.Response;
 
 public class CartFragment extends Fragment {
 
-    private EditText pizzaIdInput;
-    private EditText toppingIdsInput;
 
     private RecyclerView recyclerView;
     private AdapterPizzaCart pizzaCartAdapter;
@@ -85,16 +84,6 @@ public class CartFragment extends Fragment {
     private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
 
-
-//    @Override
-//    public void onCreate (Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        // Inicjalizacja ViewModel
-//        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-//        sharedViewModel.getSelectedPizzas().observe(getViewLifecycleOwner(), this::updateCart);
-//    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,9 +95,6 @@ public class CartFragment extends Fragment {
 
         // Now it's safe to observe LiveData as the fragment's view is created
         sharedViewModel.getSelectedPizzas().observe(getViewLifecycleOwner(), this::updateCart);
-
-        pizzaIdInput = view.findViewById(R.id.pizza_id_input);
-        toppingIdsInput = view.findViewById(R.id.topping_ids_input);
 
         recyclerView = view.findViewById(R.id.cart_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -192,7 +178,6 @@ public class CartFragment extends Fragment {
             navController.navigate(R.id.navigation_menu);
         }
     }
-
 
     //    // Obsługa odpowiedzi użytkownika
     @Override
@@ -291,7 +276,10 @@ public class CartFragment extends Fragment {
 
     private void submitOrder() {
         // Disable the button to prevent multiple clicks
-        submitOrderButton.setEnabled(false);
+        String location = "123 Pizza St.";
+        String deliveryTime = "2025-01-12 15:30:00";
+
+//        submitOrderButton.setEnabled(false);
 
         // Fetch user ID from SharedPreferences
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
@@ -303,34 +291,42 @@ public class CartFragment extends Fragment {
             return;
         }
 
-        // Validate and prepare order data
-        String pizzaIdText = pizzaIdInput.getText().toString().trim();
-        if (pizzaIdText.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter a valid Pizza ID.", Toast.LENGTH_SHORT).show();
-            submitOrderButton.setEnabled(true); // Re-enable button
-            return;
-        }
-
-        int pizzaId = Integer.parseInt(pizzaIdText);
-
-        List<Integer> toppingIds = new ArrayList<>();
-        String toppingsInput = toppingIdsInput.getText().toString().trim();
-        if (!toppingsInput.isEmpty()) {
-            String[] toppingIdsStr = toppingsInput.split(",");
-            for (String toppingId : toppingIdsStr) {
-                try {
-                    toppingIds.add(Integer.parseInt(toppingId.trim()));
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Invalid Topping ID: " + toppingId, Toast.LENGTH_SHORT).show();
-                    submitOrderButton.setEnabled(true); // Re-enable button
-                    return;
-                }
-            }
-        }
+//        // Validate and prepare order data
+//        String pizzaIdText = pizzaIdInput.getText().toString().trim();
+//        if (pizzaIdText.isEmpty()) {
+//            Toast.makeText(getContext(), "Please enter a valid Pizza ID.", Toast.LENGTH_SHORT).show();
+//            submitOrderButton.setEnabled(true); // Re-enable button
+//            return;
+//        }
+//
+//        int pizzaId = Integer.parseInt(pizzaIdText);
+//
+//        List<Integer> toppingIds = new ArrayList<>();
+//        String toppingsInput = toppingIdsInput.getText().toString().trim();
+//        if (!toppingsInput.isEmpty()) {
+//            String[] toppingIdsStr = toppingsInput.split(",");
+//            for (String toppingId : toppingIdsStr) {
+//                try {
+//                    toppingIds.add(Integer.parseInt(toppingId.trim()));
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getContext(), "Invalid Topping ID: " + toppingId, Toast.LENGTH_SHORT).show();
+//                    submitOrderButton.setEnabled(true); // Re-enable button
+//                    return;
+//                }
+//            }
+//        }
 
         // Prepare order items
-        List<OrderRequest.OrderItem> items = Collections.singletonList(new OrderRequest.OrderItem(pizzaId, toppingIds));
-        OrderRequest orderRequest = new OrderRequest(userId, items);
+        List<OrderRequest.OrderItem> items = new ArrayList<>();
+
+        items.add(new OrderRequest.OrderItem(1, Arrays.asList(2, 3)));
+
+        OrderRequest orderRequest = new OrderRequest(
+                userId,
+                location,
+                deliveryTime,
+                items
+        );
 
         // Make the API call
         apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {

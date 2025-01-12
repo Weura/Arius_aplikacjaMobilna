@@ -189,27 +189,6 @@
             android:layout_gravity="center"
             android:text="Order Now"
             android:padding="5dp" />
-
-        <EditText
-            android:id="@+id/pizza_id_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pizza ID"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white_mild"
-            android:inputType="number"
-            android:padding="5dp"/>
-
-        <EditText
-            android:id="@+id/topping_ids_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Topping IDs (comma-separated)"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white_mild"
-            android:inputType="text"
-            android:padding="5dp" />
-
     </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
