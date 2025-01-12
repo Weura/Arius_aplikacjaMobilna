@@ -55,6 +55,119 @@
             android:inputType="text"
             android:padding="5dp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose time of delivery"
+            android:gravity="center"
+            android:textColor="@color/white_mild"
+            android:background="@color/black_another"
+            android:textSize="20dp"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:background="@color/black">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hour:"
+                android:textColor="@color/white_mild"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/hour_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minute:"
+                android:textColor="@color/white_mild"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/minute_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:background="@color/black">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day:"
+                android:textColor="@color/white_mild"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/day_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month:"
+                android:textColor="@color/white_mild"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/month_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose the location of delivery"
+            android:gravity="center"
+            android:textColor="@color/white_mild"
+            android:background="@color/black_another"
+            android:textSize="20dp"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/location_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter location"
+            android:layout_gravity="center"
+            android:background="@color/black"
+            android:textColor="@color/white_mild"
+            android:textColorHint="@color/white_mild"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/get_location_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get Current Location"
+            android:padding="5dp" />
+
+
+
         <Button
             android:id="@+id/add_more_pizzas_order_button"
             android:layout_width="wrap_content"
@@ -64,30 +177,12 @@
             android:padding="5dp" />
 
         <Button
-            android:id="@+id/delivery_time_order_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Choose delivery time"
-            android:padding="5dp" />
-
-        <Button
-            android:id="@+id/location_order_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Choose location"
-            android:padding="5dp" />
-
-        <Button
             android:id="@+id/submit_order_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Order Now"
             android:padding="5dp" />
-
-
 
     </LinearLayout>
     </ScrollView>

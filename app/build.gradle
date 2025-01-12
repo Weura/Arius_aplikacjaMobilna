@@ -69,4 +69,7 @@ dependencies {
     // Zdjecia
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    // Lokalizacja
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
 }
