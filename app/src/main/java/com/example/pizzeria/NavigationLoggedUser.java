@@ -1,11 +1,13 @@
 package com.example.pizzeria;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -49,7 +51,7 @@ public class NavigationLoggedUser extends AppCompatActivity {
                     return true;
                 case R.id.navigation_login:
                     if (isLoggedIn()) {
-                        logOut(); // Log out if already logged in
+                        showLogoutConfirmationDialog(); // Show logout confirmation dialog
                     } else {
                         startActivity(new Intent(this, LoginActivity.class)); // Navigate to LoginActivity
                     }
@@ -75,7 +77,6 @@ public class NavigationLoggedUser extends AppCompatActivity {
         }
     }
 
-    // true when logout action
     private void updateMenuItems(boolean fromLogout) {
         BottomNavigationView navView = binding.navView;
         MenuItem loginItem = navView.getMenu().findItem(R.id.navigation_login);
@@ -88,7 +89,6 @@ public class NavigationLoggedUser extends AppCompatActivity {
             orderItem.setIcon(R.drawable.icon_cart);
             loginItem.setIcon(R.drawable.icon_logout); // Replace with Logout icon
 
-            // If coming from logout action, reset selected item to avoid login/logout as active
             if (!fromLogout) {
                 navView.setSelectedItemId(R.id.navigation_menu); // Make sure "Menu" is selected
             }
@@ -104,19 +104,29 @@ public class NavigationLoggedUser extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         updateMenuItems(false); // Update the menu when activity resumes
     }
 
-    // Show a toast to prompt the user to log in
     private void showLoginToast() {
         Toast.makeText(this, getString(R.string.have_to_log_in), Toast.LENGTH_SHORT).show();
     }
 
-    // Method to log out the user
+    private void showLogoutConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    logOut(); // Perform logout if "Yes" is clicked
+                })
+                .setNegativeButton("No", (dialog, id) -> {
+                    dialog.dismiss(); // Close dialog if "No" is clicked
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     private void logOut() {
         // Clear the user's login status
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -135,6 +145,6 @@ public class NavigationLoggedUser extends AppCompatActivity {
         navController.navigate(R.id.navigation_menu);
 
         // Set "Menu" as selected item in BottomNavigationView after logout
-        binding.navView.setSelectedItemId(R.id.navigation_menu); // Ensure "Menu" is selected after logout
+        binding.navView.setSelectedItemId(R.id.navigation_menu);
     }
 }

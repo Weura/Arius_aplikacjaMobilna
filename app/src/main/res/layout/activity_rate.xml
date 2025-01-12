@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="center"
     android:background="@color/background_black"
     tools:context=".RateActivity">
 
@@ -13,12 +13,12 @@
         android:id="@+id/rateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rate Your Experience"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center"
         android:layout_gravity="center"
-        android:padding="8dp" />
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/rate_your_experience"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -32,7 +32,7 @@
     <EditText
         android:id="@+id/rateComment"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:gravity="top"
         android:hint="Leave a comment (optional)"
         android:inputType="textMultiLine"
@@ -41,9 +41,17 @@
 
     <Button
         android:id="@+id/submitRateButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_marginTop="16dp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="@string/rate_us" />
 
+    <Button
+        android:id="@+id/returnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/no_thanks" />
 </LinearLayout>

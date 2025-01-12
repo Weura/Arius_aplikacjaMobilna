@@ -11,6 +11,7 @@ import com.example.pizzeria.R;
 import com.example.pizzeria.data.api.ApiClient;
 import com.example.pizzeria.data.api.ApiService;
 import com.example.pizzeria.ui.login.LoginActivity;
+import com.example.pizzeria.ui.login.RegisterActivity;
 import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,6 +21,7 @@ public class RateActivity extends AppCompatActivity {
 
     private RatingBar ratingBar;
     private EditText rateComment;
+    private Button returnButton;
     private Button submitRateButton;
 
     @Override
@@ -30,7 +32,7 @@ public class RateActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         rateComment = findViewById(R.id.rateComment);
         submitRateButton = findViewById(R.id.submitRateButton);
-
+        returnButton = findViewById(R.id.returnButton);
         submitRateButton.setOnClickListener(v -> {
             float rating = ratingBar.getRating();
             String comment = rateComment.getText().toString();  // Get the comment from EditText
@@ -40,6 +42,12 @@ public class RateActivity extends AppCompatActivity {
             int orderId = 1; // Mocked order ID for testing
 
             submitRating(userId, orderId, (int) rating, comment);
+
+            Intent intent = new Intent(RateActivity.this, NavigationLoggedUser.class);
+            startActivity(intent);
+            finish();
+        });
+        returnButton.setOnClickListener(view -> {
 
             Intent intent = new Intent(RateActivity.this, NavigationLoggedUser.class);
             startActivity(intent);
@@ -77,5 +85,6 @@ public class RateActivity extends AppCompatActivity {
                 Toast.makeText(RateActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }
