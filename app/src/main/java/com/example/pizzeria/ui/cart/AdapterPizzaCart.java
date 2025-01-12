@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pizzeria.R;
 import com.example.pizzeria.data.model.OrderItem;
 import com.example.pizzeria.data.model.Pizza;
+import com.example.pizzeria.ui.SharedViewModel;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.PizzaViewHolder> {
     private List<OrderItem> orderItemList; // Lista OrderItem, nie Pizza
+    private SharedViewModel sharedViewModel;
 
     public AdapterPizzaCart(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList != null ? orderItemList : new ArrayList<>();

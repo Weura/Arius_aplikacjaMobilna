@@ -76,14 +76,20 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
 
         holder.addPizzaToCartButton.setOnClickListener(v -> {
             if (pizza != null) {
-                selectedPizzas.add(new OrderItem(pizza));
+                // Tworzymy OrderItem
+                OrderItem orderItem = new OrderItem(pizza);
 
-                // Logowanie wszystkich pizzy w zamówieniu
+                // Pobieramy aktualną listę pizz z SharedViewModel
+                List<OrderItem> currentSelectedPizzas = sharedViewModel.getSelectedPizzas().getValue();
+
+                    // Jeśli pizza nie została jeszcze dodana, dodaj ją do koszyka
+                sharedViewModel.addPizza(orderItem); // Wywołanie metody addPizza z SharedViewModel
+
+                // Logowanie wybranych pizz
                 StringBuilder orderDetails = new StringBuilder("Selected Pizzas: ");
-
-                for (OrderItem item : selectedPizzas) {
+                for (OrderItem item : currentSelectedPizzas) {
                     orderDetails.append("Pizza ID: ")
-                            .append(item.getUniqueId()) // Wyświetlenie unikalnego ID
+                            .append(item.getUniqueId())
                             .append(", Pizza Name: ")
                             .append(item.getPizza().getName())
                             .append(", ");
@@ -91,14 +97,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
 
                 Log.d("PizzaAdapter", "Selected Pizzas: " + orderDetails.toString());
 
-                // Aktualizowanie LiveData w SharedViewModel
-                if (sharedViewModel != null) {
-                    sharedViewModel.updateSelectedPizzas(new ArrayList<>(selectedPizzas));
-                } else {
-                    Log.e("PizzaAdapter", "SharedViewModel is null");
-                }
-
-                // Powiadomienie adaptera o zmianach (aktualizowanie widoku)
+                // Aktualizowanie adaptera
                 notifyDataSetChanged();
             }
         });
