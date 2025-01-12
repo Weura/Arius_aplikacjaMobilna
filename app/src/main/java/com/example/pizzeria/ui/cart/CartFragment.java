@@ -73,7 +73,7 @@ public class CartFragment extends Fragment {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
 
 
-    private Spinner hourSpinner, minuteSpinner, daySpinner, monthSpinner;
+    private Spinner hourSpinner, minuteSpinner, daySpinner, monthSpinner, yearSpinner;
     private Button submitOrderButton, addMoreOrdersPizzaButton;
     private ApiService apiService;
     private NavController navController;
@@ -84,6 +84,7 @@ public class CartFragment extends Fragment {
     private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
 
+    private static final String[] YEARS = new String [2]; // current and next
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,6 +106,10 @@ public class CartFragment extends Fragment {
         minuteSpinner = view.findViewById(R.id.minute_spinner);
         daySpinner = view.findViewById(R.id.day_spinner);
         monthSpinner = view.findViewById(R.id.month_spinner);
+        yearSpinner = view.findViewById(R.id.year_spinner);
+
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
 
         // Initialize the Spinner data
         for (int i = 0; i < 24; i++) {
@@ -116,6 +121,9 @@ public class CartFragment extends Fragment {
         for (int i = 0; i < 31; i++) {
             DAYS[i] = String.format("%02d", i + 1);
         }
+        YEARS[0] = String.valueOf(currentYear);         // Rok bieżący
+        YEARS[1] = String.valueOf(currentYear + 1);     // Przyszły rok
+
 
         // Set the adapters for each spinner
         ArrayAdapter<String> hourAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, HOURS);
@@ -133,6 +141,10 @@ public class CartFragment extends Fragment {
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, MONTHS);
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);
+
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, YEARS);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(yearAdapter);
 
         submitOrderButton = view.findViewById(R.id.submit_order_button);
 
@@ -276,10 +288,7 @@ public class CartFragment extends Fragment {
 
     private void submitOrder() {
         // Disable the button to prevent multiple clicks
-        String location = "123 Pizza St.";
-        String deliveryTime = "2025-01-12 15:30:00";
-
-//        submitOrderButton.setEnabled(false);
+        submitOrderButton.setEnabled(false);
 
         // Fetch user ID from SharedPreferences
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
@@ -291,35 +300,73 @@ public class CartFragment extends Fragment {
             return;
         }
 
-//        // Validate and prepare order data
-//        String pizzaIdText = pizzaIdInput.getText().toString().trim();
-//        if (pizzaIdText.isEmpty()) {
-//            Toast.makeText(getContext(), "Please enter a valid Pizza ID.", Toast.LENGTH_SHORT).show();
-//            submitOrderButton.setEnabled(true); // Re-enable button
+        // Fetch user input for location
+        String location = locationInput.getText().toString().trim();
+        if (location.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter a location.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return;
+        }
+
+        // Fetch user-selected delivery time from spinners
+        int hour = Integer.parseInt(HOURS[hourSpinner.getSelectedItemPosition()]);
+        int minute = Integer.parseInt(MINUTES[minuteSpinner.getSelectedItemPosition()]);
+        int day = Integer.parseInt(DAYS[daySpinner.getSelectedItemPosition()]);
+        int month = monthSpinner.getSelectedItemPosition(); // Month is 0-based
+        int year = Integer.parseInt(YEARS[yearSpinner.getSelectedItemPosition()]); // Pobierz wybrany rok
+
+        Calendar deliveryCalendar = Calendar.getInstance();
+        deliveryCalendar.set(Calendar.YEAR, year);
+        deliveryCalendar.set(Calendar.MONTH, month);
+        deliveryCalendar.set(Calendar.DAY_OF_MONTH, day);
+        deliveryCalendar.set(Calendar.HOUR_OF_DAY, hour);
+        deliveryCalendar.set(Calendar.MINUTE, minute);
+
+        Calendar currentCalendar = Calendar.getInstance();
+
+        // Ensure delivery time is valid
+//        if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
+//            Toast.makeText(getContext(), "The delivery time must be at least 30 minutes from now.", Toast.LENGTH_SHORT).show();
+//            submitOrderButton.setEnabled(true);
 //            return;
 //        }
-//
-//        int pizzaId = Integer.parseInt(pizzaIdText);
-//
-//        List<Integer> toppingIds = new ArrayList<>();
-//        String toppingsInput = toppingIdsInput.getText().toString().trim();
-//        if (!toppingsInput.isEmpty()) {
-//            String[] toppingIdsStr = toppingsInput.split(",");
-//            for (String toppingId : toppingIdsStr) {
-//                try {
-//                    toppingIds.add(Integer.parseInt(toppingId.trim()));
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getContext(), "Invalid Topping ID: " + toppingId, Toast.LENGTH_SHORT).show();
-//                    submitOrderButton.setEnabled(true); // Re-enable button
-//                    return;
-//                }
-//            }
+
+//        if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
+//            Toast.makeText(getContext(), "The delivery time must be at least 30 minutes from now.", Toast.LENGTH_SHORT).show();
+//        } else if (deliveryCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
+//            Toast.makeText(getContext(), "You cannot select a time in the past.", Toast.LENGTH_SHORT).show();
+//        } else {
+//            // Wyświetl potwierdzenie w Toast
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+//            String formattedTime = sdf.format(deliveryCalendar.getTime());
+//            Toast.makeText(getContext(), "Delivery Time: " + formattedTime, Toast.LENGTH_SHORT).show();
 //        }
+
+        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                .format(deliveryCalendar.getTime());
+
+
+        // TODO: deliveryTime
+//        String deliveryTime = "2025-01-12 15:30:00";
 
         // Prepare order items
         List<OrderRequest.OrderItem> items = new ArrayList<>();
 
+        // TODO: pizzas i toppings ids
         items.add(new OrderRequest.OrderItem(1, Arrays.asList(2, 3)));
+
+        // Prepare order items
+//        List<OrderRequest.OrderItem> items = sharedViewModel.getSelectedPizzas().getValue();
+//        if (items == null || items.isEmpty()) {
+//            Toast.makeText(getContext(), "Your cart is empty. Add items before placing an order.", Toast.LENGTH_SHORT).show();
+//            submitOrderButton.setEnabled(true);
+//            return;
+//        }
+
+        Log.d("ORDERLogamiks", "userId: " + userId);
+        Log.d("ORDERLogamiks", "location: " + location);
+        Log.d("ORDERLogamiks", "deliveryTime: " + deliveryTime);
+//        Log.d("ORDERLogamiks", "items" + items);
 
         OrderRequest orderRequest = new OrderRequest(
                 userId,
@@ -333,7 +380,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(getContext(), "Order placed successfully! Order ID: " + response.body().getOrderId(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_LONG).show();
                 } else {
                     String errorMessage = response.errorBody() != null ? response.errorBody().toString() : "Unknown error";
                     Toast.makeText(getContext(), "Failed to place order: " + errorMessage, Toast.LENGTH_SHORT).show();
