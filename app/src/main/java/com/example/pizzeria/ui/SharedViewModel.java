@@ -43,6 +43,9 @@ public class SharedViewModel extends ViewModel {
         }
     }
 
+    public void clearPizzas() {
+        selectedPizzas.setValue(new ArrayList<>());
+    }
 
     // Metoda do aktualizacji całej listy pizz (może być przydatna, gdy lista jest resetowana)
     public void updateSelectedPizzas(List<OrderItem> pizzas) {

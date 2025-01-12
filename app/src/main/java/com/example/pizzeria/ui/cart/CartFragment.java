@@ -330,7 +330,6 @@ public class CartFragment extends Fragment {
             submitOrderButton.setEnabled(true);
             return;
         }
-
         if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
             Toast.makeText(getContext(), "Give us at least 30 minutes to prepare your order.", Toast.LENGTH_SHORT).show();
             submitOrderButton.setEnabled(true);
@@ -339,32 +338,37 @@ public class CartFragment extends Fragment {
 
         Log.d("SubmitOrder", "Delivery date is valid. Proceeding...");
 
-
         String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
                 .format(deliveryCalendar.getTime());
 
-
-        // TODO: deliveryTime
-//        String deliveryTime = "2025-01-12 15:30:00";
-
-        // Prepare order items
-        List<OrderRequest.OrderItem> items = new ArrayList<>();
-
         // TODO: pizzas i toppings ids
-        items.add(new OrderRequest.OrderItem(1, Arrays.asList(2, 3)));
-
         // Prepare order items
-//        List<OrderRequest.OrderItem> items = sharedViewModel.getSelectedPizzas().getValue();
-//        if (items == null || items.isEmpty()) {
-//            Toast.makeText(getContext(), "Your cart is empty. Add items before placing an order.", Toast.LENGTH_SHORT).show();
-//            submitOrderButton.setEnabled(true);
-//            return;
-//        }
+        // Fetch the selected items (pizzas) from the shared view model
+        List<OrderItem> selectedItems = sharedViewModel.getSelectedPizzas().getValue();
+        if (selectedItems == null || selectedItems.isEmpty()) {
+            Toast.makeText(getContext(), "Your cart is empty. Add items before placing an order.", Toast.LENGTH_SHORT).show();
+            submitOrderButton.setEnabled(true);
+            return; // Don't proceed if the cart is empty
+        }
 
-        Log.d("ORDERLogamiks", "userId: " + userId);
-        Log.d("ORDERLogamiks", "location: " + location);
-        Log.d("ORDERLogamiks", "deliveryTime: " + deliveryTime);
-//        Log.d("ORDERLogamiks", "items" + items);
+        List<OrderRequest.OrderItem> items = new ArrayList<>();
+        for (OrderItem selectedItem : selectedItems) {
+            if (selectedItem != null && selectedItem.getPizza() != null) {
+                // Create OrderRequest.OrderItem using pizzaId and empty list of toppings
+                OrderRequest.OrderItem orderItem = new OrderRequest.OrderItem(
+                        selectedItem.getPizza().getId(),  // Get pizza ID
+                        new ArrayList<>() // Empty list of toppings for now
+                );
+                items.add(orderItem);
+            } else {
+                Log.e("Finalisation", "Invalid pizza or selected item. Skipping this item.");
+            }
+        }
+
+//        Log.d("ORDERLogamiks", "userId: " + userId);
+//        Log.d("ORDERLogamiks", "location: " + location);
+//        Log.d("ORDERLogamiks", "deliveryTime: " + deliveryTime);
+        Log.d("Finalisation", "items" + items);
 
         OrderRequest orderRequest = new OrderRequest(
                 userId,
@@ -375,11 +379,6 @@ public class CartFragment extends Fragment {
 
         // Make the API call
         apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
-//            if (deliveryCalendar.getTimeInMillis() <= currentCalendar.getTimeInMillis() + 30 * 60 * 1000) {
-//                Log.e("API_CALL", "Invalid delivery time. Request will not be sent.");
-//                return;
-//            }
-
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

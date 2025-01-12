@@ -22,4 +22,8 @@ public class OrderItem {
     public void setPizza(Pizza pizza) {
         this.pizza = pizza;
     }
+
+    public int getPizzaId() {
+        return pizza != null ? pizza.getId() : null;
+    }
 }
