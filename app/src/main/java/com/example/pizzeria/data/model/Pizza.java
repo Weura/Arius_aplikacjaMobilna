@@ -1,5 +1,9 @@
 package com.example.pizzeria.data.model;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pizza {
     private int id;
     private String name;
@@ -8,6 +12,8 @@ public class Pizza {
     private boolean isSelected;
     @SerializedName("image_url")
     private String imageUrl;
+
+    private List<String> toppings = new ArrayList<>();
 
     // Gettery i settery
     public int getId() {
@@ -56,6 +62,14 @@ public class Pizza {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public void addTopping(String topping) {
+        toppings.add(topping);
+    }
+
+    public List<String> getToppings() {
+        return toppings;
     }
 
     @Override

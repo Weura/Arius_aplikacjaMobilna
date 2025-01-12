@@ -175,7 +175,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Get Current Location"
-            android:padding="5dp" />
+            android:padding="5dp"
+            />
 
         <TextView
             android:layout_width="match_parent"

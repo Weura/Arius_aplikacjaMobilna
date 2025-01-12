@@ -110,23 +110,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextTelephone"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/white_background"/>
-
-    <!-- Loading Progress Bar -->
-
-
-    <!--    <ImageButton-->
-<!--        android:id="@+id/returnButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="616dp"-->
-<!--        android:src="@drawable/icon_pizzerialocal"-->
-<!--        -->
-<!--        android:contentDescription="@string/action_return"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+        android:background="@color/background_middle"/>
 
     <Button
         android:id="@+id/returnButton"
@@ -134,20 +118,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="640dp"
         android:text="@string/action_return"
+        android:background="@color/background_middle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toStartOf="parent" />
-
-<!--    <ImageView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="24dp"-->
-<!--        android:src="@drawable/icon_pizzerialocal"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.498"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
     <ProgressBar
         android:id="@+id/loading"

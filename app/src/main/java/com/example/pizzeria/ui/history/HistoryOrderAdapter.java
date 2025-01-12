@@ -62,12 +62,12 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
             int backgroundDarkColor = ContextCompat.getColor(itemView.getContext(), R.color.background_dark);
 
             // Create a SpannableStringBuilder for the date
-            SpannableStringBuilder dateBuilder = new SpannableStringBuilder("Date: " + order.getCreated_at());
+            SpannableStringBuilder dateBuilder = new SpannableStringBuilder("Ordered on: " + order.getCreated_at());
 
-            // Apply bold style to "Date:"
-            dateBuilder.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            // Apply color to "Date:"
-            dateBuilder.setSpan(new ForegroundColorSpan(backgroundMiddleColor), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // Apply bold style to "Ordered on:"
+            dateBuilder.setSpan(new StyleSpan(Typeface.BOLD), 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // Apply color to "Ordered on:"
+            dateBuilder.setSpan(new ForegroundColorSpan(backgroundMiddleColor), 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             createdAtTextView.setText(dateBuilder);
 
             // StringBuilder to accumulate pizzas and toppings for the order
