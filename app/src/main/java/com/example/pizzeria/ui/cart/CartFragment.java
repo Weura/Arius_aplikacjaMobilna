@@ -341,9 +341,7 @@ public class CartFragment extends Fragment {
         String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
                 .format(deliveryCalendar.getTime());
 
-        // TODO: pizzas i toppings ids
         // Prepare order items
-        // Fetch the selected items (pizzas) from the shared view model
         List<OrderItem> selectedItems = sharedViewModel.getSelectedPizzas().getValue();
         if (selectedItems == null || selectedItems.isEmpty()) {
             Toast.makeText(getContext(), "Your cart is empty. Add items before placing an order.", Toast.LENGTH_SHORT).show();
@@ -383,6 +381,10 @@ public class CartFragment extends Fragment {
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_LONG).show();
+
+                    sharedViewModel.clearPizzas();
+
+                    updateCartUI();
                 } else {
                     String errorMessage = response.errorBody() != null ? response.errorBody().toString() : "Unknown error";
                     Toast.makeText(getContext(), "Failed to place order: " + errorMessage, Toast.LENGTH_SHORT).show();
@@ -397,6 +399,15 @@ public class CartFragment extends Fragment {
             }
         });
     }
+
+    private void updateCartUI() {
+        if (pizzaCartAdapter != null) {
+            pizzaCartAdapter.notifyDataSetChanged(); // Notify adapter about data change
+        } else {
+            Log.e("CartUI", "pizzaCartAdapter is not initialized!");
+        }
+    }
+
 
     private void validateAndSetDeliveryTime() {
         int hour = Integer.parseInt(HOURS[hourSpinner.getSelectedItemPosition()]);

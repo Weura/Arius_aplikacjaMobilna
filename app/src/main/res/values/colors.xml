@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_light">#D89635</color>
-    <color name="background_middle">#F39813</color>
+    <color name="background_middle">#C77805</color>
     <color name="background_dark">#8C5C15</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
