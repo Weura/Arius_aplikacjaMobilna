@@ -57,7 +57,7 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
         holder.selectedToppingsRecyclerView.setAdapter(toppingListAdapter);
 
         // Set up the Spinner for toppings
-        String[] availableToppings = {"Cheese", "Pepperoni", "Mushrooms", "Onions", "Olives"}; // Example toppings
+        String[] availableToppings = {"Mushrooms", "Extra Cheese", "Bacon"}; // Example toppings
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(holder.itemView.getContext(),
                 android.R.layout.simple_spinner_item, availableToppings);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -66,6 +66,7 @@ public class AdapterPizzaCart extends RecyclerView.Adapter<AdapterPizzaCart.Pizz
         holder.toppingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Log.d("AdapterLogamiks", "dodane items: " + )
                 String selectedTopping = parent.getItemAtPosition(position).toString();
                 if (!orderItem.getToppings().contains(selectedTopping)) {
                     orderItem.addTopping(selectedTopping); // Add topping to OrderItem
