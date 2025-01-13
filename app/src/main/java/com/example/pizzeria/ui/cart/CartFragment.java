@@ -393,9 +393,18 @@ public class CartFragment extends Fragment {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_LONG).show();
+                    OrderResponse orderResponse = response.body();
 
+                    Integer orderId = orderResponse.getOrderId();
+
+                    Toast.makeText(getContext(), "Order placed successfully! Order ID: " + orderId, Toast.LENGTH_LONG).show();
+
+                    // Wyczyszczenie pizzy w SharedViewModel
                     sharedViewModel.clearPizzas();
+                    Intent intent = new Intent(getContext(), RateActivity.class);
+                    intent.putExtra("user_id", userId); // Pass the user ID
+                    intent.putExtra("order_id", orderId); // Pass the order ID
+                    startActivity(intent);
 
                     updateCartUI();
                 } else {
