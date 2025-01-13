@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_black"
+    tools:context=".ui.cart.CartFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order away!"
+            android:textSize="40dp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textColor="@color/white_strong"
+            android:background="@color/main_black"
+            android:textStyle="bold|italic" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose time of delivery"
+            android:gravity="center"
+            android:textColor="@color/white_mild"
+            android:background="@color/black_another"
+            android:textSize="20dp"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white_background">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hour:"
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/hour_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minute:"
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/minute_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white_background">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day:"
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/day_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month:"
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/month_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white_background">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Year:"
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/year_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomSpinner" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose the location of delivery"
+            android:gravity="center"
+            android:textColor="@color/white_mild"
+            android:background="@color/black_another"
+            android:textSize="20dp"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/location_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter location"
+            android:layout_gravity="center"
+            android:background="@color/white_background"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/get_location_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get Current Location"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Added pizzas"
+            android:gravity="center"
+            android:textColor="@color/white_mild"
+            android:background="@color/black_another"
+            android:textSize="20dp"
+            android:padding="5dp" />
+
+        <!-- RecyclerView do wyświetlania pizzy w koszyku -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cart_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/white_mild"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:id="@+id/add_more_pizzas_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add more pizzas"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/submit_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Order Now"
+            android:padding="5dp" />
+    </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

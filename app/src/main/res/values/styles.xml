@@ -1,0 +1,15 @@
+<resources>
+    <style name="CustomSpinner" parent="Widget.AppCompat.Spinner">
+        <!-- Dostosowanie szerokości rozwijanego menu -->
+        <item name="android:dropDownWidth">wrap_content</item>
+
+        <!-- Dostosowanie wysokości rozwijanego menu -->
+        <item name="android:dropDownHeight">200dp</item> <!-- Zmniejsz wysokość menu -->
+
+        <!-- Zmniejszenie odstępu w pionie -->
+        <item name="android:dropDownVerticalOffset">70dp</item> <!-- Zwiększenie offsetu, aby menu było lepiej widoczne -->
+
+        <!-- Opcjonalnie: Zmniejszenie odstępów między pozycjami -->
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+    </style>
+</resources>
