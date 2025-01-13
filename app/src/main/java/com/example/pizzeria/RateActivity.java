@@ -38,9 +38,13 @@ public class RateActivity extends AppCompatActivity {
             String comment = rateComment.getText().toString();  // Get the comment from EditText
 
             // Replace with actual user ID and order ID (retrieve from session or intent)
-            int userId = 1; // Example user ID
-            int orderId = 1; // Mocked order ID for testing
-
+            int userId = getIntent().getIntExtra("user_id", -1);
+            int orderId = getIntent().getIntExtra("order_id", -1);
+            if (userId == -1 || orderId == -1) {
+                Toast.makeText(this, "Invalid user or order information", Toast.LENGTH_SHORT).show();
+                finish();  // Close activity if data is invalid
+                return;
+            }
             submitRating(userId, orderId, (int) rating, comment);
 
             Intent intent = new Intent(RateActivity.this, NavigationLoggedUser.class);

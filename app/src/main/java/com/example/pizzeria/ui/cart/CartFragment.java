@@ -1,5 +1,6 @@
 package com.example.pizzeria.ui.cart;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -374,6 +375,7 @@ public class CartFragment extends Fragment {
             } else {
                 Log.e("Finalisation", "Invalid pizza or selected item. Skipping this item.");
             }
+
         }
 
 //        Log.d("ORDERLogamiks", "userId: " + userId);
@@ -393,22 +395,32 @@ public class CartFragment extends Fragment {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_LONG).show();
 
+                    OrderResponse orderResponse = response.body();
+
+                    Integer orderId = orderResponse.getOrderId();
+
+                    Toast.makeText(getContext(), "Order placed successfully! Order ID: " + orderId, Toast.LENGTH_LONG).show();
+
+                    // Wyczyszczenie pizzy w SharedViewModel
                     sharedViewModel.clearPizzas();
-
+                    Intent intent = new Intent(getContext(), RateActivity.class);
+                    intent.putExtra("user_id", userId); // Pass the user ID
+                    intent.putExtra("order_id", orderId); // Pass the order ID
+                    startActivity(intent);
+                    // Zaktualizowanie UI koszyka
                     updateCartUI();
                 } else {
                     String errorMessage = response.errorBody() != null ? response.errorBody().toString() : "Unknown error";
                     Toast.makeText(getContext(), "Failed to place order: " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
-                submitOrderButton.setEnabled(true); // Re-enable button
+                submitOrderButton.setEnabled(true); // Ponowne włączenie przycisku
             }
 
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                submitOrderButton.setEnabled(true); // Re-enable button
+                Toast.makeText(getContext(), "Order failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                submitOrderButton.setEnabled(true); // Ponowne włączenie przycisku w przypadku błędu
             }
         });
     }
