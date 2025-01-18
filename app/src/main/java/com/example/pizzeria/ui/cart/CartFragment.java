@@ -39,9 +39,13 @@ import com.example.pizzeria.data.model.OrderItem;
 import com.example.pizzeria.data.model.OrderRequest;
 import com.example.pizzeria.data.model.OrderResponse;
 
+import com.example.pizzeria.data.model.Topping;
+import com.example.pizzeria.databinding.FragmentCartBinding;
+import com.example.pizzeria.databinding.FragmentMenuBinding;
 import com.example.pizzeria.ui.SharedViewModel;
 import com.example.pizzeria.ui.login.LoginActivity;
 import com.example.pizzeria.ui.menu.MenuFragment;
+import com.example.pizzeria.ui.menu.ToppingAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,9 +65,15 @@ import retrofit2.Response;
 
 public class CartFragment extends Fragment {
 
+//    private AdapterPizzaCart binding;
+    private FragmentCartBinding binding;
+    private RecyclerView toppingRecyclerView;
+    private ToppingListAdapter toppingAdapter;
 
+    private List<Topping> toppingsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private AdapterPizzaCart pizzaCartAdapter;
+
     private SharedViewModel sharedViewModel;
 
     // Location
@@ -99,6 +109,12 @@ public class CartFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.cart_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+//        // Inicjalizacja RecyclerView dla toppingów
+//        toppingRecyclerView = binding.cart_recycler_view.selected_toppings_list;
+//        toppingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        fetchTopping();
 
         addMoreOrdersPizzaButton = view.findViewById(R.id.add_more_pizzas_order_button);
 
@@ -170,12 +186,44 @@ public class CartFragment extends Fragment {
         return view;
     }
 
+    private void fetchTopping() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        apiService.getToppings().enqueue(new Callback<List<Topping>>() {
+            @Override
+            public void onResponse(Call<List<Topping>> call, Response<List<Topping>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    toppingsList = response.body();
+                    setupAdapter();
+                } else {
+                    Toast.makeText(getContext(), "Failed to load toppings", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Topping>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupAdapter() {
+        if (sharedViewModel.getSelectedPizzas().getValue() != null) {
+            List<OrderItem> selectedPizzas = sharedViewModel.getSelectedPizzas().getValue();
+            pizzaCartAdapter = new AdapterPizzaCart(selectedPizzas, toppingsList);
+            recyclerView.setAdapter(pizzaCartAdapter);
+        }
+    }
+
+
     private void updateCart(List<OrderItem> selectedPizzas) {
-        // Aktualizuj dane w adapterze
         if (pizzaCartAdapter == null) {
-            pizzaCartAdapter = new AdapterPizzaCart(selectedPizzas);
+            // Initialize adapter if it's null, passing selected pizzas and toppings
+            pizzaCartAdapter = new AdapterPizzaCart(selectedPizzas, toppingsList);
             recyclerView.setAdapter(pizzaCartAdapter);
         } else {
+            // Update pizza list in adapter and notify changes
+            pizzaCartAdapter.updatePizzaList(selectedPizzas);
             pizzaCartAdapter.notifyDataSetChanged();
         }
     }

@@ -25,7 +25,6 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
     @NonNull
     @Override
     public ToppingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflating layout topping_item.xml
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.topping_item, parent, false);
         return new ToppingViewHolder(view);

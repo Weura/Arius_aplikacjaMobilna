@@ -108,6 +108,7 @@ public class MenuFragment extends Fragment {
             public void onResponse(Call<List<Pizza>> call, Response<List<Pizza>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     pizzaList = response.body();
+
                     pizzaAdapter.updatePizzaList(pizzaList); // Zaktualizuj listę w adapterze
                     Log.d("MenuFragment", "Loaded pizzas: " + (pizzaList != null ? pizzaList.size() : 0));
                 } else {

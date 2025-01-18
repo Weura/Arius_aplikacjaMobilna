@@ -15,6 +15,7 @@ public class SharedViewModel extends ViewModel {
 
     private final MutableLiveData<List<OrderItem>> selectedPizzas = new MutableLiveData<>(new ArrayList<>());
 
+
     // Metoda do uzyskania listy wybranych pizz
     public LiveData<List<OrderItem>> getSelectedPizzas() {
         return selectedPizzas;
@@ -54,6 +55,37 @@ public class SharedViewModel extends ViewModel {
             currentList.clear(); // Usuwamy wszystkie obecne pizze
             currentList.addAll(pizzas); // Dodajemy nowe pizze
             selectedPizzas.setValue(currentList); // Zaktualizuj LiveData
+        }
+    }
+
+    // Dodaj topping do konkretnej pizzy (OrderItem)
+    public void addToppingToPizza(String uniqueId, String topping) {
+        List<OrderItem> pizzas = selectedPizzas.getValue();
+        if (pizzas != null) {
+            for (OrderItem item : pizzas) {
+                if (item.getUniqueId().equals(uniqueId)) {
+                    item.addTopping(topping);  // Dodajemy topping do pizzy
+                    selectedPizzas.setValue(pizzas);  // Aktualizujemy listę
+                    break;
+                }
+            }
+        }
+    }
+
+    // Usuwanie toppingu z konkretnej pizzy
+    public void removeToppingFromPizza(String uniqueId, String topping) {
+        List<OrderItem> pizzas = selectedPizzas.getValue();
+        if (pizzas != null) {
+            for (OrderItem item : pizzas) {
+                if (item.getUniqueId().equals(uniqueId)) {
+                    List<String> toppings = item.getToppings();
+                    if (toppings != null) {
+                        toppings.remove(topping);  // Usuwamy topping
+                        selectedPizzas.setValue(pizzas);  // Aktualizujemy listę
+                    }
+                    break;
+                }
+            }
         }
     }
 }
