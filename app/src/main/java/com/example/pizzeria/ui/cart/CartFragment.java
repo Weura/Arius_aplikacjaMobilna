@@ -191,7 +191,7 @@ public class CartFragment extends Fragment {
         }
     }
 
-    //    // Obsługa odpowiedzi użytkownika
+    // Obsługa odpowiedzi użytkownika
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
@@ -376,10 +376,10 @@ public class CartFragment extends Fragment {
             }
         }
 
-//        Log.d("ORDERLogamiks", "userId: " + userId);
-//        Log.d("ORDERLogamiks", "location: " + location);
-//        Log.d("ORDERLogamiks", "deliveryTime: " + deliveryTime);
-        Log.d("Finalisation", "items" + items);
+        Log.d("ORDERLogamiks", "userId: " + userId);
+        Log.d("ORDERLogamiks", "location: " + location);
+        Log.d("ORDERLogamiks", "deliveryTime: " + deliveryTime);
+        Log.d("ORDERLogamiks", "items" + items);
 
         OrderRequest orderRequest = new OrderRequest(
                 userId,
@@ -397,7 +397,7 @@ public class CartFragment extends Fragment {
 
                     Integer orderId = orderResponse.getOrderId();
 
-                    Toast.makeText(getContext(), "Order placed successfully! Order ID: " + orderId, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_LONG).show();
 
                     // Wyczyszczenie pizzy w SharedViewModel
                     sharedViewModel.clearPizzas();
@@ -434,16 +434,12 @@ public class CartFragment extends Fragment {
         // This is a simple placeholder logic for mapping topping names to IDs.
         // Replace this with your actual mapping logic or API call to fetch the topping ID.
         switch (toppingName) {
-            case "Cheese":
-                return 1;
-            case "Pepperoni":
-                return 2;
             case "Mushrooms":
+                return 1;
+            case "Extra Cheese":
+                return 2;
+            case "Bacon":
                 return 3;
-            case "Onions":
-                return 4;
-            case "Olives":
-                return 5;
             default:
                 return null;
         }

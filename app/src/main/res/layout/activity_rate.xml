@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:numStars="5"
+        android:progressTint="@color/background_middle"
         android:padding="8dp"
         android:stepSize="1.0" />
 
@@ -37,7 +38,8 @@
         android:hint="Leave a comment (optional)"
         android:inputType="textMultiLine"
         android:minHeight="100dp"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:background="@android:color/transparent" />
 
     <Button
         android:id="@+id/submitRateButton"
