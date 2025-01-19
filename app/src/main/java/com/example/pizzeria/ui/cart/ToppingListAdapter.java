@@ -33,7 +33,7 @@ public class ToppingListAdapter extends RecyclerView.Adapter<ToppingListAdapter.
     public void onBindViewHolder(@NonNull ToppingViewHolder holder, int position) {
         Topping topping = toppingList.get(position);
         holder.toppingNameCart.setText(topping.getName());
-        holder.toppingPriceCart.setText("");
+        holder.toppingPriceCart.setText(String.format("$%.2f", topping.getPrice()));
     }
 
 
