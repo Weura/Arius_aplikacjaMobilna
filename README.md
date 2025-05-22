@@ -1,8 +1,8 @@
-Pizzeria Mobile Application
+# Pizzeria Mobile Application
 
 A modern and user-friendly mobile application developed in Android Studio using Java for Android, designed to enhance the pizza ordering experience. The app seamlessly connects to a dedicated database and supports both logged-in and guest users, offering a smooth and intuitive interface for all.
 
-Features
+## Features
 
 The application provides a range of features tailored to both casual users and registered customers. Certain functionalities are exclusive to logged-in users, ensuring a personalized experience. Below is a comprehensive list of features:
 
